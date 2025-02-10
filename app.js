@@ -11,6 +11,11 @@ app.get("/", (req, res) => {
 
 })
 
+app.get("/", (req, res) => {
+
+    res.render("landing");
+})
+
 app.listen(3000, (err)=>{
     if(err) throw err;
     console.log("Server is listening");
