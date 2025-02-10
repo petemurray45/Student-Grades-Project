@@ -11,7 +11,6 @@ body {
     display: flex;
 }
 
-
 @media (max-width: 700px){
 
     .inner-body {
@@ -42,11 +41,7 @@ body {
         font-size: x-large;
         
     }
-
-    
 }
-
-
 
 .inner-body {
     display: flex;
