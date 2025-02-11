@@ -59,9 +59,10 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-image: url("/assets/imgs/background.jpg");
+    background-color: white;
+    background-image: url("/imgs/background.jpg");
     width: 45vw;
-    height: 100vh;
+    height: 100%;
 }
 
 .welcome {
