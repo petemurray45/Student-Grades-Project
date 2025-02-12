@@ -1,29 +1,248 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Josefin+Sans:wght@700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
 @import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
+
 
 @media (max-width: 768px){
     .grid, .fixed-grid {
         grid-template-columns: 1fr !important;
         grid-template-rows: auto;
     }
+    
 }
+
+
 
 body {
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
     background-image: url("/imgs/background.jpg");
+    height: 100vh;
+    transition: all 0.3s ease-in-out;
+    
 }
 
-.nav {
-    width: 100vw;
-    height: 10vh;
-    background-color: #33cbaf;
-}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  }
+  
+  
+  
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 4.5%;
+    display: flex;
+    overflow-x: hidden;
+    flex-direction: column;
+    background: #33cbaf;
+    padding: 25px 20px;
+    transition: all 0.3s ease;
+  }
+
+  .sidebar img {
+    width: 100%;
+    height: auto;
+    transition: width 0.3s ease-in-out, transform 0.3s ease-in-out;
+  }
+
+  .sidebar li {
+    width: 100%;
+    height: 7%;
+    margin: 5%;
+  }
+  
+  .sidebar:hover {
+    width: 260px;
+  }
+
+  .sidebar:hover img {
+    width: 50px;
+    height: auto;
+    transition: 0.3s ease-in-out;
+    
+  }
+
+  .sidebar:hover ~ .fixed-grid {
+    margin-left: 260px;
+    width: calc(100vw - 260px);
+  }
+  
+  .sidebar .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+  }
+  
+  .sidebar .sidebar-header img {
+    width: 42px;
+    border-radius: 50%;
+  }
+  
+  .sidebar .sidebar-header h2 {
+    color: black;
+    font-size: 1.25rem;
+    font-weight: 600;
+    white-space: nowrap;
+    margin-left: 23px;
+    opacity: 0;
+  }
+
+  .sidebar:hover .sidebar-header h2 {
+    opacity: 1;
+  }
+  
+  .sidebar-links h4 {
+    color: #fff;
+    font-weight: 500;
+    white-space: nowrap;
+    margin: 10px 0;
+    position: relative;
+  }
+
+  .sidebar .text {
+    opacity: 0;
+    width: 0;
+  }
+
+  .sidebar:hover .text {
+    opacity: 1;
+    width: auto;
+    color: black;
+  }
+  
+  .sidebar-links h4 {
+    opacity: 0;
+  }
+  
+  .sidebar:hover h4 {
+    opacity: 1;
+    color: black;
+  }
+
+  .sidebar .user-account {
+    opacity: 0;
+  }
+
+  .sidebar:hover .user-account {
+    opacity: 1;
+  }
+  
+  
+  
+  .sidebar-links .menu-separator {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 0.1%;
+    transform: scaleX(1);
+    transform: translateY(-50%);
+    background: black;
+    transform-origin: right;
+    transition-delay: 0.2s;
+    margin-top: 40%;
+  }
+  
+  .sidebar:hover .sidebar-links .menu-separator {
+    transition-delay: 0s;
+    transform: scaleX(0);
+  }
+  
+  .sidebar-links {
+    list-style: none;
+    margin-top: 20px;
+    padding: 10px;
+    height: 80%;
+    overflow-y: auto;
+    scrollbar-width: none;
+    
+  }
+
+ 
+  
+  .sidebar-links::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .sidebar-links li  {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #fff;
+    font-weight: 700;
+    white-space: normal;
+    flex-wrap: wrap;
+    padding: 15px 10px;
+    text-decoration: none;
+    transition: 0.2s ease;
+    width: 100%;
+    
+  }
+
+  .sidebar-links li:hover {
+    background-color: #99edde;
+    border-radius: 8px;
+    width: 100%;
+  }
+  
+  
+  
+  .user-account {
+    margin-top: auto;
+    padding: 12px 10px;
+    margin-left: -10px;
+    
+  }
+  
+  .user-profile {
+    display: flex;
+    align-items: center;
+    color: #161a2d;
+  }
+  
+  .user-profile img {
+    width: 42px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+  
+  .user-profile h3 {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  
+  .user-profile span {
+    font-size: 0.775rem;
+    font-weight: 600;
+  }
+  
+  .user-detail {
+    margin-left: 23px;
+    white-space: nowrap;
+  }
+  
+  .sidebar:hover .user-account {
+    background: #fff;
+    border-radius: 4px;
+  }
 
 .fixed-grid {
     display: grid;
-    width: 100vw;
-    height: auto;
-    padding: 1%;
+    width: calc(100vw - 60px);
+    height: 100vh;
+    padding: 2%;
+    flex-grow: 1;
+    transition: all 0.3s ease-in-out;
     
 }
 
