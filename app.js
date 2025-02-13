@@ -18,6 +18,10 @@ app.get("/", (req, res) => {
     res.render("index");
 })
 
+app.get("/modules", (req, res)=> {
+    res.render("modules");
+})
+
 app.post('/login', (req, res)=> {
     const {email, password} = req.body;
     const user = users.find(u => u.email === email && u.password === password);
