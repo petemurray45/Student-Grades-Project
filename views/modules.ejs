@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./ui/stylesModules.css">
+    
     <title>Document</title>
 </head>
 <body>
@@ -11,13 +12,92 @@
     <%-include("partials/sidebar")%>
 
     <div class="grid-box">
-        <div class="grid-container">
-          <div class="grid-item span-two-rows">Cell 1</div>
-          <div class="grid-item">Cell 2</div>
-          <div class="grid-item">Cell 3</div>
+        <div class="container">
+          <div class="module-box">
+            <div class="table-box">
+                <table class="table">
+                    <thead>
+                        <tr>
+                          <th>Subject Code</abbr></th>
+                          <th>Module Title</th>
+                          <th>Credits</abbr></th>
+                          <th>Core Module</abbr></th>
+                        </tr>
+                      </thead>
+                    <tbody>
+                        <% modules.forEach((module, index) => { %>
+                            <tr>
+                                <td><%= module.subj_code %></td>
+                                <td><%= module.module_title %></td>
+                                <td><%= module.credit_value %></td>
+                                <td><%= module.core_module %></td>
+                                <td>
+                                    <button class="button" onclick="toggleForm('<%= index %>')">Edit</button>
+                                </td>
+                                
+                            </tr>
+
+                            <tr id="form-row-<%= index %>" style="display: none;">
+                                <td colspan="5">
+                                    <form action="/modules/update" method="POST" class="box">
+                                        <input type="hidden" name="module_id" value="<%= module.module_id %>">
+
+                                        <div class="field">
+                                            <label class="label">Module Title</label>
+                                            <div class="control">
+                                                <input class="input" type="text" name="module_title" value="<%= module.module_title %>">
+                                            </div>
+                                        </div>
+
+                                        <div class="field">
+                                            <label class="label">Credits</label>
+                                            <div class="control">
+                                                <input class="input" type="number" name="credit_value" value="<%= module.credit_value %>">
+                                            </div>
+                                        </div>
+
+                                        <div class="field">
+                                            <label class="label">Core Module</label>
+                                            <div class="control">
+                                              <div class="select">
+                                                <select name="core_module">
+                                                  <option value="YES" <%= module.core_module === "YES" ? "selected" : "" %>>YES</option>
+                                                  <option value="NO" <%= module.core_module === "NO" ? "selected" : "" %>>NO</option>
+                                                </select>
+                                              </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="control">
+                                            <button class="button is-primary" type="submit">Save</button>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+        
+                       <% }); %>
+                    </tbody>
+                  </table>
+                  <div style="height: 2rem;"></div>
+
+            </div>
+           
+
+            
+
+
+          </div>
+
+          
+
+
+          
+          
           
         </div>
     </div>
+
+    <script src="/script.js"></script>
     
 </body>
 </html>

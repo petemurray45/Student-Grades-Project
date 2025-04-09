@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./ui/stylesModules.css">
+    <title>Grades</title>
+</head>
+<body>
+
+    <%-include("partials/sidebar")%>
+
+    <div class="grid-box">
+        <div class="container">
+
+            <div class="field">
+                <label class="label">Search For a Module</label>
+                <div class="control">
+                  <div class="dropdown" id="moduleDropdown">
+                    <div class="dropdown-trigger">
+                      <input class="input" type="text" placeholder="Type module name..." id="moduleSearch">
+                    </div>
+                    <div class="dropdown-menu" id="moduleList" role="menu">
+                      <div class="dropdown-content">
+                        <% modules.forEach(module => { %>
+                          <a href="#" class="dropdown-item module-option" data-id="<%= module.module_id %>">
+                            <%= module.module_name %>
+                          </a>
+                        <% }) %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <table class="table is-striped is-fullwidth mt-5">
+                <thead>
+                  <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>First Grade</th>
+                  </tr>
+                </thead>
+                <tbody id="gradesTableBody"></tbody>
+            </table>
+            
+
+        </div>
+    </div>
+    
+    
+</body>
+</html>

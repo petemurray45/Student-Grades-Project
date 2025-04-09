@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require('path');
 const app = express();
+const connection = require("./connection.js");
 
 app.use(express.urlencoded({ extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -19,7 +20,18 @@ app.get("/", (req, res) => {
 })
 
 app.get("/modules", (req, res)=> {
-    res.render("modules");
+    let readSql = `SELECT * FROM modules ORDER BY LOWER(TRIM(module_title)) ASC`;
+
+    connection.query(readSql, (err, rows)=>{
+        if (err) throw err;
+        res.render("modules", {modules : rows});
+
+    });
+        
+});
+
+app.get("/grades", (req, res)=> {
+    res.render("grades");
 })
 
 app.post('/login', (req, res)=> {
@@ -33,7 +45,20 @@ app.post('/login', (req, res)=> {
     }
 })
 
-app.listen(3000, (err)=>{
+app.post("/modules/update", (req, res)=> {
+    const { module_id, module_title, credit_value, core_module} = req.body;
+    const updateQuery = `
+    UPDATE modules
+    SET module_title = ?, credit_value = ?, core_module = ?
+    WHERE module_id = ?`;
+
+    connection.query(updateQuery, [module_title, credit_value, core_module, module_id], (err) => {
+        if (err) throw err;
+        res.redirect("/modules");
+    });
+})
+
+app.listen(3002, (err)=>{
     if(err) throw err;
     console.log("Server is listening");
 })
