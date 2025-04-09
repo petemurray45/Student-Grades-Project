@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./ui/stylesGrades.css">
     <link rel="stylesheet" href="./ui/stylesModules.css">
+    
     <title>Grades</title>
 </head>
 <body>
@@ -24,7 +26,7 @@
                       <div class="dropdown-content">
                         <% modules.forEach(module => { %>
                           <a href="#" class="dropdown-item module-option" data-id="<%= module.module_id %>">
-                            <%= module.module_name %>
+                            <%= module.module_title %>
                           </a>
                         <% }) %>
                       </div>
@@ -43,10 +45,14 @@
                 </thead>
                 <tbody id="gradesTableBody"></tbody>
             </table>
+
+            <button id="submitGrades" class="button is-primary is-hidden mt-3">Save Grades</button>
             
 
         </div>
     </div>
+
+    <script src="/grades.js"></script>
     
     
 </body>

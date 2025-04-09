@@ -334,3 +334,15 @@ form.box {
 }
 
 
+.dropdown.is-active .dropdown-menu .dropdown-content {
+  background-color: white !important;
+  color: black !important;
+  border-radius: 6px;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1);
+}
+
+.dropdown-item {
+  color: black !important;
+}
+
+

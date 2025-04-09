@@ -19,6 +19,8 @@ app.get("/", (req, res) => {
     res.render("index");
 })
 
+// MODULES Page
+
 app.get("/modules", (req, res)=> {
     let readSql = `SELECT * FROM modules ORDER BY LOWER(TRIM(module_title)) ASC`;
 
@@ -29,21 +31,6 @@ app.get("/modules", (req, res)=> {
     });
         
 });
-
-app.get("/grades", (req, res)=> {
-    res.render("grades");
-})
-
-app.post('/login', (req, res)=> {
-    const {email, password} = req.body;
-    const user = users.find(u => u.email === email && u.password === password);
-
-    if (user){
-        res.render('landing', {user});
-    } else {
-        res.render('index', {error: 'Invalid email or password'});
-    }
-})
 
 app.post("/modules/update", (req, res)=> {
     const { module_id, module_title, credit_value, core_module} = req.body;
@@ -58,7 +45,77 @@ app.post("/modules/update", (req, res)=> {
     });
 })
 
-app.listen(3002, (err)=>{
+
+
+// GRADES PAGE
+
+
+app.get("/grades", async (req, res) => {
+    const [rows] = await connection.query("SELECT * FROM modules ORDER BY module_title ASC");
+    res.render("grades", {modules:rows});
+})
+
+app.get("/grades/module/:id", (req, res)=>{
+    const moduleId = req.params.id;
+
+    console.log("Module ID received:", moduleId);
+    const readSql =` SELECT *
+        FROM grades
+        WHERE module_id = ?`;
+
+    connection.query(readSql, [moduleId], (err, rows)=> {
+        if (err) {
+            console.error("QUERY ERROR:", err);
+            return res.status(500).send("Database error");
+        }
+        console.log("Returning rows:", rows);
+        res.json(rows);
+    })
+})
+
+app.post("/grades/update", async (req, res)=>{
+    const updates = req.body.grades;
+
+    for (const entry of updates){
+        await connection.query(`
+            UPDATE grades
+            SET first_grade = ?
+            WHERE student_id = ? AND module_id = ?`,
+            [entry.first_grade, entry.student_id, entry.module_id]);
+    };
+    res.json({message : 'Grades updates successfully'})
+});
+
+// SEARCH page 
+
+app.get("/search", (req, res)=> {
+    let readSql1 = `SELECT * FROM students ORDER BY last_name ASC`;
+
+    connection.query(readSql1, (err, rows)=> {
+        if (err) throw err;
+        res.render("search", {students : rows});
+    })
+})
+
+app.get("/searchAddNew", (req, res)=> {
+    res.render("searchAddNew");
+})
+
+
+
+app.post('/login', (req, res)=> {
+    const {email, password} = req.body;
+    const user = users.find(u => u.email === email && u.password === password);
+
+    if (user){
+        res.render('landing', {user});
+    } else {
+        res.render('index', {error: 'Invalid email or password'});
+    }
+})
+
+
+app.listen(3001, (err)=>{
     if(err) throw err;
     console.log("Server is listening");
 })

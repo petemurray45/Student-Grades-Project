@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./ui/stylesModules.css">
+    <link rel="stylesheet" href="./ui/stylesSearch.css">
+
+
+    <title>Search</title>
+</head>
+<body>
+
+    <%-include("partials/sidebar")%>
+
+    <div class="grid-box">
+
+        <div class="title-container">
+            <h1 class="title">Search for a Student</h1>
+            <a href="/searchAddNew" class="button is-primary mb-4">Add New Student</a>
+        </div>
+        <div class="container">
+
+            <div class="table-box" id="searchBox">
+                <table class="table">
+                    
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Pathway</th>
+                            <th>Student ID</th>
+                            <th>Year of Study</th>
+                            <th>Study Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% students.forEach((student, index)=> { %>
+                            <tr>
+                                <td><%= student.first_name %></td>
+                                <td><%= student.last_name %></td>
+                                <td><%= student.pathway %></td>
+                                <td><%= student.sID %></td>
+                                <td><%= student.year_of_study%></td>
+                                <td><%= student.study_status%></td>
+                                <td>
+                                    <button class="button" onclick="toggleForm('<%= index %>')">Edit</button>
+                                </td>
+                            </tr>
+
+                       <% }) %>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    
+</body>
+</html>
