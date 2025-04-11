@@ -101,21 +101,53 @@ app.get("/searchAddNew", (req, res)=> {
     res.render("searchAddNew");
 })
 
+app.post("/students/update", (req, res)=> {
+    const { sID, first_name, last_name, pathway, year_of_study, study_status} = req.body;
+    const sqlUpdate = `
+    UPDATE students SET
+    first_name = ?,
+    last_name = ?,
+    pathway = ?,
+    year_of_study = ?,
+    study_status = ?
+    WHERE sID = ?
+    `;
+
+    connection.query(sqlUpdate, [first_name, last_name, pathway, year_of_study, study_status, sID], (err)=> {
+        if (err) throw err;
+        res.redirect("/search");
+    })
+})
+
+app.post("/students/delete", (req, res)=> {
+    const sID = req.body.sID;
+    const deleteSql = `DELETE FROM students WHERE sID = ?`;
+
+    connection.query(deleteSql, [sID], (err, result)=>{
+        if (err) throw err;
+        res.redirect("/search");
+    })
+})
+
 
 
 app.post('/login', (req, res)=> {
-    const {email, password} = req.body;
+    const {email, password, role} = req.body;
     const user = users.find(u => u.email === email && u.password === password);
 
     if (user){
-        res.render('landing', {user});
+        if (role ==="admin"){
+            res.render("landing", {user});
+        } else {
+            res.render("studentLanding", {user});
+        }
     } else {
-        res.render('index', {error: 'Invalid email or password'});
+        res.render("index", {error: "Invalid username or password"})
     }
 })
 
 
-app.listen(3001, (err)=>{
+app.listen(3009, (err)=>{
     if(err) throw err;
     console.log("Server is listening");
 })

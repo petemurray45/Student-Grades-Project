@@ -10,14 +10,27 @@
 <body>
     <div class="inner-body">
 
-        <div class="login-box">
+        <div class="admin-theme" id="login-box">
 
             <div class="panel">
             
-                <h1 class="welcome">Welcome Back</h1>
+                <h1 class="welcome" id="welcome-message">Welcome Back</h1>
+
+                <div class="switch">
+                  <div class="text-box">
+                    <h4 class="toggle-words" id="toggle-text">Toggle for Admin Login</h4>
+                  </div>
+                  
+                  
+                  <div class="toggle-switch">
+                    <input class="toggle-input" id="toggle" type="checkbox">
+                    <label class="toggle-label" for="toggle"></label>
+                  </div>
+                </div>
     
                 <div class="login-form">
                     <form action="/login" method="POST">
+                      <input type="hidden" name="role" id="role" value="admin" />
                       <div class="field">
                         <p class="control has-icons-left has-icons-right">
                           <input class="input" type="email" name="email" required>
@@ -49,6 +62,8 @@
             </div>
         </div>
     </div>
+
+    <script src="/index.js"></script>
     
     
 </body>
