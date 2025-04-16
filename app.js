@@ -2,10 +2,19 @@ const express = require("express");
 const path = require('path');
 const app = express();
 const connection = require("./connection.js");
+const modulesRoute = require("./routes/modules");
+const messagesRoute = require("./routes/messaging.js");
+const gradesRoute = require("./routes/grades.js");
+const searchRoute = require("./routes/search.js");
+const bcrypt = require("bcrypt");
 
 app.use(express.urlencoded({ extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'assets')));
+app.use("/", modulesRoute);
+app.use("/", messagesRoute);
+app.use("/", gradesRoute);
+app.use("/", searchRoute);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -19,135 +28,45 @@ app.get("/", (req, res) => {
     res.render("index");
 })
 
-// MODULES Page
 
-app.get("/modules", (req, res)=> {
-    let readSql = `SELECT * FROM modules ORDER BY LOWER(TRIM(module_title)) ASC`;
-
-    connection.query(readSql, (err, rows)=>{
-        if (err) throw err;
-        res.render("modules", {modules : rows});
-
-    });
-        
-});
-
-app.post("/modules/update", (req, res)=> {
-    const { module_id, module_title, credit_value, core_module} = req.body;
-    const updateQuery = `
-    UPDATE modules
-    SET module_title = ?, credit_value = ?, core_module = ?
-    WHERE module_id = ?`;
-
-    connection.query(updateQuery, [module_title, credit_value, core_module, module_id], (err) => {
-        if (err) throw err;
-        res.redirect("/modules");
-    });
-})
-
-
-
-// GRADES PAGE
-
-
-app.get("/grades", async (req, res) => {
-    const [rows] = await connection.query("SELECT * FROM modules ORDER BY module_title ASC");
-    res.render("grades", {modules:rows});
-})
-
-app.get("/grades/module/:id", (req, res)=>{
-    const moduleId = req.params.id;
-
-    console.log("Module ID received:", moduleId);
-    const readSql =` SELECT *
-        FROM grades
-        WHERE module_id = ?`;
-
-    connection.query(readSql, [moduleId], (err, rows)=> {
-        if (err) {
-            console.error("QUERY ERROR:", err);
-            return res.status(500).send("Database error");
-        }
-        console.log("Returning rows:", rows);
-        res.json(rows);
-    })
-})
-
-app.post("/grades/update", async (req, res)=>{
-    const updates = req.body.grades;
-
-    for (const entry of updates){
-        await connection.query(`
-            UPDATE grades
-            SET first_grade = ?
-            WHERE student_id = ? AND module_id = ?`,
-            [entry.first_grade, entry.student_id, entry.module_id]);
-    };
-    res.json({message : 'Grades updates successfully'})
-});
-
-// SEARCH page 
-
-app.get("/search", (req, res)=> {
-    let readSql1 = `SELECT * FROM students ORDER BY last_name ASC`;
-
-    connection.query(readSql1, (err, rows)=> {
-        if (err) throw err;
-        res.render("search", {students : rows});
-    })
-})
-
-app.get("/searchAddNew", (req, res)=> {
-    res.render("searchAddNew");
-})
-
-app.post("/students/update", (req, res)=> {
-    const { sID, first_name, last_name, pathway, year_of_study, study_status} = req.body;
-    const sqlUpdate = `
-    UPDATE students SET
-    first_name = ?,
-    last_name = ?,
-    pathway = ?,
-    year_of_study = ?,
-    study_status = ?
-    WHERE sID = ?
-    `;
-
-    connection.query(sqlUpdate, [first_name, last_name, pathway, year_of_study, study_status, sID], (err)=> {
-        if (err) throw err;
-        res.redirect("/search");
-    })
-})
-
-app.post("/students/delete", (req, res)=> {
-    const sID = req.body.sID;
-    const deleteSql = `DELETE FROM students WHERE sID = ?`;
-
-    connection.query(deleteSql, [sID], (err, result)=>{
-        if (err) throw err;
-        res.redirect("/search");
-    })
-})
-
-
+// LOGIN 
 
 app.post('/login', (req, res)=> {
-    const {email, password, role} = req.body;
-    const user = users.find(u => u.email === email && u.password === password);
+    
+    const {identifier, password, role} = req.body;
 
-    if (user){
-        if (role ==="admin"){
-            res.render("landing", {user});
-        } else {
-            res.render("studentLanding", {user});
+    // selects an identifyer based on their account role
+    const indentifierField = role === "admin" ? "username" : "student_id";
+    const identifierValue = identifier;
+
+    const sql = `SELECT * FROM users WHERE ${indentifierField} = ? and role = ?`;
+
+    connection.query(sql, [identifierValue, role], async (err, results) => {
+        if (err) throw err;
+
+        if (results.length === 0){
+            return res.render("index", { error : "Invalid User"});
         }
-    } else {
-        res.render("index", {error: "Invalid username or password"})
-    }
+
+        const user = results[0];
+
+        // compares password entered with hashed password
+
+        const passwordMatch = await bcrypt.compare(password, user.password_hash);
+        if (passwordMatch){
+            if (role === "admin"){
+                res.render("landing", { user });
+            } else {
+                res.render("studentLanding", { user });
+            }
+        } else {
+            res.render("index", { error: "Invalid Password"});
+        }
+    })
 })
 
 
-app.listen(3009, (err)=>{
+app.listen(3000, (err)=>{
     if(err) throw err;
     console.log("Server is listening");
 })

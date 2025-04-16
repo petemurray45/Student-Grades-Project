@@ -1,0 +1,12 @@
+.title-box {
+    
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 2rem;
+    
+}
+
+.grid-box .container .module-box {
+    flex-direction: column;
+    justify-content: flex-start;
+}

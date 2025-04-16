@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./ui/stylesModules.css">
+    <link rel="stylesheet" href="./ui/stylesSendMessage.css">
+    <title>Send Message</title>
+</head>
+<body>
+
+    <%-include("partials/sidebar")%>
+
+    <div class="grid-box">
+        <div class="container">
+            <div class="module-box">
+
+                <div class="title-box">
+                    <h1 class="title">
+                        Send Message
+                    </h1>
+
+                    
+                </div>
+
+                <div class="searchBox">
+                   <div class="dropdown" id="studentDropdown">
+                        <div class="control">
+                            <input class="input" type="text" id="studentSearch" placeholder="Search for students...." oninput="filterDropdown()">
+                        </div>
+                   </div>
+                   <div class="dropdown-menu" role="menu">
+                        <div class="dropdown-content" id="studentList">
+                            <% students.forEach(student => { %>
+                                <a href="#" class="dropdown-item" onclick="selectStudent('<%= student.student_id %>', '<%= student.name %>')">
+                                    <%= student.name %> (<%= student.student_id %>)
+                                </a>
+                           <% }) %>
+                        </div>
+                   </div>
+                </div>
+
+                <input type="hidden" name="recipient_id" id="recipientInput">
+
+                <div class="form-box">
+                    <form method="POST" action="/send">
+                        <div class="box">
+                            <h2 class="subtitle">Select Students</h2>
+
+                            <% if (students.length > 0) { %>
+                                <div class="field-is-grouped is-grouped-multiline">
+                                    <% students.forEach(student => { %>
+                                        <div class="control">
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="recipients" value="<%= student.student_id%>">
+                                                <%= student.name %>
+                                            </label>
+                                        </div>
+                                   <% }) %>
+                                </div>
+                                <% } else { %>
+                                    <p>No Students Found</p>
+                                <% } %>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">Message</label>
+                            <div class="control">
+                                <textarea class="textarea" name="message" placeholder="Type your message here...." required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <button class="button-is-success" type="submit">Send Message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+               
+
+                
+
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
