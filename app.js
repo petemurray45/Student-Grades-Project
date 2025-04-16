@@ -6,6 +6,7 @@ const modulesRoute = require("./routes/modules");
 const messagesRoute = require("./routes/messaging.js");
 const gradesRoute = require("./routes/grades.js");
 const searchRoute = require("./routes/search.js");
+const messagingRoute = require("./routes/messaging.js");
 const bcrypt = require("bcrypt");
 
 app.use(express.urlencoded({ extended: true}));
@@ -15,14 +16,10 @@ app.use("/", modulesRoute);
 app.use("/", messagesRoute);
 app.use("/", gradesRoute);
 app.use("/", searchRoute);
+app.use("/", messagesRoute);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-const users = [
-    {email: 'pmurray697@gmail.com',
-     password: 'oldmill50',
-    }
-];
 
 app.get("/", (req, res) => {
     res.render("index");

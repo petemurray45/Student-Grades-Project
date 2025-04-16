@@ -10,3 +10,12 @@
     flex-direction: column;
     justify-content: flex-start;
 }
+
+.searchBox {
+    width: 100%;
+}
+
+.searchBox input {
+    width: 100%;
+    box-sizing: border-box;
+}

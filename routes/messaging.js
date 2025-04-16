@@ -12,14 +12,9 @@ router.get("/inbox", (req, res)=> {
 })
 
 router.get("/send", (req, res)=> {
-    const searchName = req.query.searchName;
-    const query = searchName
-    ? `SELECT * FROM students WHERE first_name LIKE ?`
-    : `SELECT * FROM students`;
-
-    const values = searchName ? [`%${searchName}`] : [];
-
-    connection.query(query, values, (err, students) => {
+    
+    const query = "SELECT sID, CONCAT (first_name, ' ', last_name) AS name FROM students ORDER BY name ASC"
+    connection.query(query, (err, students)=> {
         if (err) throw err;
         res.render("send", { students });
     })
