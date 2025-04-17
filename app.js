@@ -6,7 +6,6 @@ const modulesRoute = require("./routes/modules");
 const messagesRoute = require("./routes/messaging.js");
 const gradesRoute = require("./routes/grades.js");
 const searchRoute = require("./routes/search.js");
-const messagingRoute = require("./routes/messaging.js");
 const bcrypt = require("bcrypt");
 
 app.use(express.urlencoded({ extended: true}));

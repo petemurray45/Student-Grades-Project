@@ -20,6 +20,24 @@ router.get("/send", (req, res)=> {
     })
 })
 
+router.get("/inbox", (req, res)=> {
+    const user = req.session.user;
+
+    const recipientId = user.role === "student" ? user.student_id : user.username;
+    const sqlQuery = `
+    SELECT m.message_text, m.timestamp, m.sender_id, u.username, s.first_name, s.last_name, s.student_id
+    FROM messages m
+    LEFT JOIN users u ON m.sender_id = u.username
+    LEFT JOIN students s ON m.sender_id = s.student_id
+    WHERE m.recipient_id = ?
+    ORDER BY m.timestamp DESC`;
+
+    connection.query(sqlQuery, [recipientId], (err, messages) => {
+        if (err) throw err;
+        res.render("inbox", { messages : messages});
+    })
+})
+
 router.post("/send", (req, res) => {
     const {recipient_ids, message} = req.body;
     const sender = req.session.user;
@@ -35,5 +53,7 @@ router.post("/send", (req, res) => {
         res.redirect("/messaging")
     })
 })
+
+
 
 module.exports = router;
