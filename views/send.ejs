@@ -41,7 +41,15 @@
                    </div>
                 </div>
 
-                <input type="hidden" name="recipient_id" id="recipientInput">
+                
+
+                <div class="field">
+                    <label class="label">Recipients</label>
+                    <div class="control">
+                      <div id="recipientTags" class="tags are-medium is-primary is-light"></div>
+                    </div>
+                </div>
+                <input type="hidden" name="recipient_ids" id="recipientIdsInput">
 
                 <div class="form-box">
                     <form method="POST" action="/send">
@@ -54,8 +62,8 @@
                         </div>
 
                         <div class="field">
-                            <div class="control">
-                                <button class="button-is-success" type="submit">Send Message</button>
+                            <div class="control-1">
+                                <button class="btn" type="submit">Send Message</button>
                             </div>
                         </div>
                     </form>

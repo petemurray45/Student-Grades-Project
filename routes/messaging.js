@@ -21,12 +21,12 @@ router.get("/send", (req, res)=> {
 })
 
 router.post("/send", (req, res) => {
-    const {recipients, message} = req.body;
+    const {recipient_ids, message} = req.body;
     const sender = req.session.user;
     const senderID = sender.role === "student" ? sender.student_id : sender.username;
 
     // if there is only one reciever of the message wrap it in an array
-    const recipientArray = Array.isArray(recipients) ? recipients : [recipients];
+    const recipientArray = recipient_ids.split(",").filter(Boolean);
     const values = recipientArray.map(recipientId => [senderID, recipientId, message]);
     const sql = `INSERT INTO messages (sender_id, recipient_id, message) VALUES ?`;
 

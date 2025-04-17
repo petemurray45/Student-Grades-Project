@@ -1,6 +1,7 @@
 const dropdown = document.getElementById("studentDropdown");
 const studentInput = document.getElementById("studentSearch");
 const studentList = document.getElementById("studentList");
+const selectedRecipients = new Map();
 
 // js to show dropdown when type in box 
 
@@ -25,7 +26,39 @@ function filterDropdown(){
 }
 
 function selectStudent(id, name) {
-    studentInput.value = `${name} (${id})`;
-    document.getElementById("recipientInput").value = id;
+
+    if (selectedRecipients.has(id)) return;
+    
+    selectedRecipients.set(id, name);
+    updateRecipient();
+    updateRecipientInput();
+
+    studentInput.value = "";
     dropdown.classList.remove("is-active");
+}
+
+function updateRecipient(){
+    const recipientContainer = document.getElementById("recipientTags");
+    recipientContainer.innerHTML = "";
+
+    selectedRecipients.forEach((name, id) => {
+        const tag = document.createElement("span");
+        tag.className = "tag";
+        tag.textContent = `${name} (${id})`;
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "delete is-small";
+        deleteBtn.onclick = () => {
+            selectedRecipients.delete(id);
+            updateRecipient();
+            updateRecipientInput();
+        }
+        tag.appendChild(deleteBtn);
+        recipientContainer.appendChild(tag);
+    })
+}
+
+function updateRecipientInput(){
+    const hiddenInput = document.getElementById("recipientIdInput");
+    hiddenInput.value = Array.from(selectedRecipients.keys()).join(",");
 }

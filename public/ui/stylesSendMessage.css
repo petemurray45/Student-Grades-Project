@@ -11,11 +11,102 @@
     justify-content: flex-start;
 }
 
-.searchBox {
-    width: 100%;
+#studentSearch .input {
+    width: 700px;
 }
 
-.searchBox input {
-    width: 100%;
-    box-sizing: border-box;
+.dropdown-menu {
+    max-height: 50vh;
+    overflow-y: auto;
+    z-index: 1000;
+    border-radius: 6px;
 }
+
+.dropdown-item {
+    background-color: white !important;
+}
+
+.dropdown-item:hover {
+    background-color: lightgray !important;
+}
+
+.tag {
+    background-color: white;
+    color: black;
+}
+
+.grid-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    height: 65vh;
+    
+}
+
+textarea.textarea {
+    height: 25vh;
+    resize: none;
+}
+
+
+
+textarea::placeholder {
+    color: black !important;
+}
+
+.module-box {
+    max-height: 600px;
+    position: relative;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.btn {
+    background-color: white;
+    color: black;
+    border: solid thin;
+    height: 3rem;
+    width: 9rem;
+    border-radius: 6px;
+    margin: 2rem;
+
+}
+
+.btn:hover {
+    background-color: #33cbaf;
+    color: black;
+}
+
+.control-1 {
+    display: flex;
+    justify-content: flex-end;
+    
+}
+
+.form-box {
+    max-width: 100;
+    max-height: 400px;
+}
+
+h1 {
+    font-size: xx-large;
+}
+
+.searchBox {
+    margin-bottom: 1.5rem;
+}
+
+input::placeholder {
+    color: black !important;
+}
+
+.label {
+    margin-bottom: 3rem;
+    color: black;
+}
+
