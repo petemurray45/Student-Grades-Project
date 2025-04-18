@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./ui/admin/stylesModules.css">
+    <link rel="stylesheet" href="./ui/student/stylesStudentSendMessage.css">
+    <title>Send Message</title>
+</head>
+<body>
+
+    <%-include("../partials/sidebar")%>
+
+    <div class="grid-box">
+        <div class="container">
+            <div class="module-box">
+
+                <div class="title-box">
+                    <h1 class="title">
+                        Send Message
+                    </h1>
+
+                    
+                </div>
+
+                <div class="searchBox">
+                   <div class="dropdown" id="studentDropdown">
+                        <div class="control">
+                            <input class="input" type="text" id="studentSearch" placeholder="Search for students...." oninput="filterDropdown()">
+                        </div>
+
+                        <div class="dropdown-menu" role="menu">
+                            <div class="dropdown-content" id="studentList">
+                                <% students.forEach(student => { %>
+                                    <a class="dropdown-item" onclick="selectStudent('<%= student.sID %>', '<%= student.name %>')">
+                                        <%= student.name %> (<%= student.sID %>)
+                                    </a>
+                               <% }) %>
+                            </div>
+                       </div>
+                   </div>
+                </div>
+
+                
+
+                <div class="field">
+                    <label class="label">Recipients</label>
+                    <div class="control">
+                        <div class="recipient-scroll-container">
+                            <div id="recipientTags" class="tags are-medium is-primary is-light"></div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="recipient_ids" id="recipientIdsInput">
+
+                <div class="form-box">
+                    <form method="POST" action="/send">
+                    
+                        <div class="field">
+                            <label class="label">Message</label>
+                            <div class="control">
+                                <textarea class="textarea" name="message" placeholder="Type your message here...." required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control-1">
+                                <button class="btn" type="submit">Send Message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+               
+
+                
+
+            </div>
+        </div>
+    </div>
+
+    <script src="/send.js"></script>
+    
+</body>
+</html>

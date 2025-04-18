@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./ui/admin/stylesModules.css">
+    <link rel="stylesheet" href="./ui/admin/stylesInbox.css">
+
+    <title>Inbox</title>
+</head>
+<body>
+
+    <%-include("../partials/sidebar")%>
+
+    <div class="grid-box">
+        <div class="container">
+            <div class="module-box">
+                <div class="inbox-container box inbox1">
+                    <h1 class="title is-4">Inbox</h1>
+
+                    <% if (messages.length === 0) { %>
+                        <p>No messages yet.</p>
+                        <% } else { %>
+                            <% messages.forEach(message => { %>
+                                <div class="message-box">
+                                  <strong>From:</strong>
+                                  <%= message.first_name ? `${message.first_name} ${message.last_name}` : message.username %><br>
+                                  <strong>Message:</strong> <%= message.message_text %><br>
+                                  <small><%= new Date(message.timestamp).toLocaleString() %></small>
+                                </div>
+                              <% }); %>
+                        <% }; %>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

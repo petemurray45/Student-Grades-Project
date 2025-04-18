@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const connection = require("../connection.js");
+const connection = require("../../connection.js");
 
 router.get("/grades", async (req, res) => {
     const [rows] = await connection.query("SELECT * FROM modules ORDER BY module_title ASC");
-    res.render("grades", {modules:rows});
+    res.render("admin/grades", {modules:rows});
 })
 
 router.get("/grades/module/:id", (req, res)=>{

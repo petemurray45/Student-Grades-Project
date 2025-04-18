@@ -3,19 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./ui/stylesModules.css">
-    <link rel="stylesheet" href="./ui/stylesMessaging.css">
+    <link rel="stylesheet" href="./ui/admin/stylesModules.css">
+    <link rel="stylesheet" href="./ui/student/stylesStudentMessaging.css">
+    <link rel="stylesheet" href="./ui/admin/stylesMessaging.css">
+    
     <title>Messaging</title>
 </head>
 <body>
-    <%-include("partials/sidebar")%>
+    <%-include("../partials/sidebar")%>
 
     <div class="grid-box">
         
             
                 <div class="card">
                     <div class="card-content">
-                        <a class="card-content" href="/inbox">
+                        <a class="card-content" href="/studentInbox">
                             <img src="/imgs/mail-inbox-app.png" alt="Description of image">
                             <div class="card-text">
                                 <h2 class="cell-title">Inbox</h2>
@@ -27,7 +29,7 @@
 
                 <div class="card">
                     <div class="card-content">
-                        <a class="card-content" href="/send">
+                        <a class="card-content" href="/studentSend">
                             <img src="/imgs/send.png" alt="Description of image">
                             <div class="card-text">
                                 <h2 class="cell-title">Send Message</h2>

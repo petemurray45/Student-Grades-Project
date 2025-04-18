@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const connection = require("../connection.js");
+const connection = require("../../connection.js");
 
 router.get("/modules", (req, res)=> {
     let readSql = `SELECT * FROM modules ORDER BY LOWER(TRIM(module_title)) ASC`;
 
     connection.query(readSql, (err, rows)=>{
         if (err) throw err;
-        res.render("modules", {modules : rows});
+        res.render("admin/modules", {modules : rows});
 
     });
         
@@ -22,7 +22,7 @@ router.post("/modules/update", (req, res)=> {
 
     connection.query(updateQuery, [module_title, credit_value, core_module, module_id], (err) => {
         if (err) throw err;
-        res.redirect("/modules");
+        res.redirect("admin/modules");
     });
 })
 
