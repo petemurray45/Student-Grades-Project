@@ -13,7 +13,7 @@ router.get("/modules", (req, res)=> {
         
 });
 
-router.post("/modules/update", (req, res)=> {
+router.post("admin/modules/update", (req, res)=> {
     const { module_id, module_title, credit_value, core_module} = req.body;
     const updateQuery = `
     UPDATE modules
@@ -22,7 +22,7 @@ router.post("/modules/update", (req, res)=> {
 
     connection.query(updateQuery, [module_title, credit_value, core_module, module_id], (err) => {
         if (err) throw err;
-        res.redirect("admin/modules");
+        res.json({success:true});
     });
 })
 

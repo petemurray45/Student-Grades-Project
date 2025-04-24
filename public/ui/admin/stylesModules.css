@@ -344,4 +344,22 @@ form.box {
   color: black !important;
 }
 
+.modal-card-body {
+  background-color: #33cbaf;
+}
+
+.modal-card-head {
+  background-color: #33cbaf;
+  color: black;
+}
+
+.modal-card-foot {
+  background-color: #33cbaf;
+  justify-content: space-between;
+}
+
+.modal-card-title {
+  color: black;
+}
+
 
