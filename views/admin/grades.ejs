@@ -15,7 +15,8 @@
     <div class="grid-box">
         <div class="container">
 
-            <div class="boxx">
+            <div class="module-box">
+              <h1 class="title">Student Grades</h1>
               <div class="searchBox">
                 <div class="dropdown" id="moduleDropdown">
                      <div class="control">
@@ -33,27 +34,61 @@
                     </div>
                 </div>
              </div>
+
+             <div class="table-box">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Student ID</th>
+                      <th>Name</th>
+                      <th>First Grade</th>
+                      <th>Grade Result</th>
+                      <th>Resit Grade</th>
+                      <th>Resit Result</th>
+                      <th>Semester</th>
+                      <th>Academic Year</th>
+                    </tr>
+
+                  </thead>
+                  <tbody id="gradesTableBody"></tbody>
+                </table>
+
+                <div id="editModal" class="modal">
+                  <div class="modal-background"></div>
+                  <div class="modal-content box">
+                    <h3 class="title is-5">Edit Student Grade</h3>
+                    <form id="editForm">
+                      <input type="hidden" id="editSID" name="sID">
+                      
+                      <div class="field">
+                        <label class="label">First Grade</label>
+                        <input class="input" type="number" id="editFirstGrade" name="first_grade">
+                      </div>
+                      <div class="field">
+                        <label class="label">Grade Result</label>
+                        <input class="input" type="text" id="editGradeResult" name="grade_result">
+                      </div>
+                      <div class="field">
+                        <label class="label">Resit Grade</label>
+                        <input class="input" type="number" id="editResitGrade" name="resit_grade">
+                      </div>
+                      <div class="field">
+                        <label class="label">Resit Result</label>
+                        <input class="input" type="text" id="editResitResult" name="resit_result">
+                      </div>
+                      <div class="field is-grouped">
+                        <button class="button is-success" type="submit">Save</button>
+                        <button class="button is-light" type="button" id="closeModal">Cancel</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div class="table-box">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Student ID</th>
-                    <th>Name</th>
-                    <th>First Grade</th>
-                    <th>Grade Result</th>
-                    <th>Resit Grade</th>
-                    <th>Resit Result</th>
-                    <th>Semester</th>
-                    <th>Academic Year</th>
-                  </tr>
+            
 
-                </thead>
-                <tbody id="gradesTableBody"></tbody>
-            </table>
-
-            </div>
+            
 
            
 

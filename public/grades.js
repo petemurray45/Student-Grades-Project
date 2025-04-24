@@ -2,6 +2,9 @@ const dropdown = document.getElementById("moduleDropdown");
 const moduleInput = document.getElementById("moduleSearch");
 const moduleList = document.getElementById("moduleList");
 const gradesTableBody = document.getElementById("gradesTableBody");
+// need to save module name and id globally
+let selectedModuleId = null;
+let selectedModuleName = "";
 const selectedModule = new Map();
 
 // js to show dropdown when type in box 
@@ -28,6 +31,9 @@ function filterDropdown(){
 
 function selectModule(id, name) {
 
+    selectedModuleId = id;
+    selectedModuleName = name;
+
     moduleInput.value = "";
     dropdown.classList.remove("is-active");
 
@@ -52,6 +58,9 @@ function selectModule(id, name) {
                 <td>${row.resit_result ?? 'N/A'}</td>
                 <td>${row.semester}</td>
                 <td>${row.academic_year}</td>
+                <td>
+                    <button class="edit-btn button is-small is-info" data-student='${JSON.stringify(row)}'>Edit</button>
+                </td>
             </tr>`;
         });
         gradesTableBody.innerHTML = htmlRows.join("");
@@ -61,6 +70,39 @@ function selectModule(id, name) {
         console.error("Error fetching student grades:", err);
     })
 }
+
+document.addEventListener("click", function(e){
+    if (e.target.classList.contains("edit-btn")){
+        const student = JSON.parse(e.target.dataset.student);
+        document.getElementById('editSID').value = student.sID;
+        document.getElementById('editFirstGrade').value = student.first_grade;
+        document.getElementById('editGradeResult').value = student.grade_result;
+        document.getElementById('editResitGrade').value = student.resit_grade;
+        document.getElementById('editResitResult').value = student.resit_result;
+        document.getElementById('editModal').classList.add('is-active');
+    }
+
+    if (e.target.id === "closeModal" || e.target.classList.contains("modal-background")){
+        document.getElementById("editModal").classList.remove("is-active");
+    }
+})
+
+document.getElementById('editForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData);
+  
+    fetch('/grades/update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(response => {
+      document.getElementById('editModal').classList.remove('is-active');
+      selectModule(selectedModuleId, selectedModuleName ); 
+    });
+  });
 
 
 

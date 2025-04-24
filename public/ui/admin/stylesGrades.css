@@ -21,10 +21,31 @@
   margin-bottom: 1.5rem;
 }
 
+.table-box {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  
+  
+}
+
 .table-box thead th {
   color: black !important;
 }
 
-.boxx {
-  border-radius: 6px;
+.module-box {
+  display: flex;
+  flex-direction: column;
+}
+
+#moduleSearch::placeholder {
+  color: black;
+}
+
+
+
+#gradesTableBody {
+  padding: 0.5rem;
+  
 }

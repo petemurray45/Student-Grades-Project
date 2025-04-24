@@ -40,16 +40,18 @@ router.get("/grades/module/:id", (req, res)=>{
 })
 
 router.post("/grades/update", async (req, res)=>{
-    const updates = req.body.grades;
+    
+    const {sID, first_grade, grade_result, resit_grade, resit_result} = req.body;
 
-    for (const entry of updates){
-        await connection.query(`
-            UPDATE grades
-            SET first_grade = ?
-            WHERE student_id = ? AND module_id = ?`,
-            [entry.first_grade, entry.student_id, entry.module_id]);
-    };
-    res.json({message : 'Grades updates successfully'})
+    const sql = `
+    UPDATE grades
+    SET first_grade = ?, grade_result = ?, resit_grade = ?, resit_result = ?
+    WHETE student_id = ?`;
+
+    connection.query(sql, [first_grade, grade_result, resit_grade, resit_result, sID], (err) => {
+        if (err) return res.status(500).json({ error: "Update Failed"});
+        res.json({ success: true});
+    } )
 });
 
 module.exports = router;
