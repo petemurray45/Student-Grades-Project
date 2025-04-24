@@ -39,5 +39,7 @@ async function createUsersFromStudents(){
     })
 }
 
+
+
 createUsersFromStudents();
 

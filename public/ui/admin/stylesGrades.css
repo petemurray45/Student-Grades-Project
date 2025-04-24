@@ -1,18 +1,30 @@
+#moduleSearch .input {
+  width: 700px;
+}
+
+.dropdown-menu {
+  max-height: 50vh;
+  overflow-y: auto;
+  z-index: 1000;
+  border-radius: 6px;
+}
+
 .dropdown-item {
   background-color: white !important;
-  color: black !important;
-  padding: 0.5rem 1rem;
-  font-size: 100px;
 }
-
 
 .dropdown-item:hover {
-  background-color: #f2f2f2 !important;
+  background-color: lightgray !important;
+}
+
+.searchBox {
+  margin-bottom: 1.5rem;
+}
+
+.table-box thead th {
   color: black !important;
 }
 
-.dropdown-content {
-  max-height: 500px;
-  overflow-y: auto;
+.boxx {
+  border-radius: 6px;
 }
-

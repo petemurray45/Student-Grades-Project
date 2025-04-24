@@ -1,77 +1,66 @@
-// DOM selectors
-
-const searchInput = document.getElementById("moduleSearch");
-const dropDown = document.getElementById("moduleDropdown");
+const dropdown = document.getElementById("moduleDropdown");
+const moduleInput = document.getElementById("moduleSearch");
 const moduleList = document.getElementById("moduleList");
-const saveBtn = document.getElementById("submitGrades");
+const gradesTableBody = document.getElementById("gradesTableBody");
+const selectedModule = new Map();
 
-document.addEventListener('click', (event) => {
-    const dropdown = document.getElementById('moduleDropdown');
-    if (!dropdown.contains(event.target)) {
-      dropdown.classList.remove('is-active');
+// js to show dropdown when type in box 
+
+moduleInput.addEventListener("focus", ()=> {
+    dropdown.classList.add("is-active");
+});
+
+document.addEventListener("click", function (e){
+    if (!dropdown.contains(e.target)){
+        dropdown.classList.remove("is-active");
     }
-  });
-
-searchInput.addEventListener("focus", ()=> dropDown.classList.add("is-active"));
-
-searchInput.addEventListener('input', ()=> {
-    const filter = searchInput.value.toLowerCase();
-    document.querySelectorAll('.module-option').forEach(option => {
-        option.style.display = option.textContent.toLowerCase().includes(filter) ? '' : 'none';
-    });
 });
 
+function filterDropdown(){
+    const search = moduleInput.value.toLowerCase();
+    const items = moduleList.querySelectorAll(".dropdown-item");
 
-document.querySelectorAll('.module-option').forEach(option => {
-    option.addEventListener('click', (e)=> {
-        e.preventDefault();
-        const moduleId = option.dataset.id;
-        searchInput.value = option.textContent;
-        dropDown.classList.remove('is-active');
-
-        fetch(`/grades/module/${moduleId}`)
-            .then(res => res.json())
-            .then(data => {
-            const tbody = document.getElementById('gradesTableBody');
-            tbody.innerHTML = '';
-            if (!data.length) {
-                tbody.innerHTML = `<tr><td colspan="3">No students found for this module.</td></tr>`;
-                return;
-              }
-            data.forEach(row => {
-                tbody.innerHTML += `
-                <tr>
-                <td>${row.student_id}</td>
-                <td>${row.student.first_name}</td>
-                <td>${row.student.last_name}</td>
-                <td>
-                <input type="number" class="input" value="${row.first_grade}"
-                data-student-id="${row.student_id}
-                data-module-id=${row.module_id}>
-                </td>
-                </tr>`
-            });
-            saveBtn.classList.remove("is-hidden");
-        });
+    items.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(search) ? "block" : "none";
     });
-});
+}
 
-saveBtn.addEventListener('click', ()=> {
-    const inputs = document.querySelectorAll("#gradesTableBody input");
-    const updates = Array.from(inputs).map(input => ({
-        student_id: input.dataset.studentId,
-        module_id: input.dataset.moduleId,
-        first_grade: input.value
-    }));
+function selectModule(id, name) {
 
-    fetch('/grades/update', {
-        method: 'POST',
-        headers: {'Content-Type': application/json},
-        body: JSON.stringify({grades:updates})
-    })
+    moduleInput.value = "";
+    dropdown.classList.remove("is-active");
+
+    fetch(`grades/module/${id}`)
     .then(res => res.json())
-    .then(msg => alert(msg.message));
-});
+    .then(data => {
+        gradesTableBody.innerHTML = "";
+
+        if (data.length === 0){
+            gradesTableBody.innerHTML = "<tr><td colspan='3'>No Students found</td></tr>";
+            return;
+        }
+
+        const htmlRows = data.map(row => {
+
+            return `<tr>
+                <td>${row.sID}</td>
+                <td>${row.name}</td>
+                <td>${row.first_grade}</td>
+                <td>${row.grade_result}</td>
+                <td>${row.resit_grade ?? 'N/A'}</td>
+                <td>${row.resit_result ?? 'N/A'}</td>
+                <td>${row.semester}</td>
+                <td>${row.academic_year}</td>
+            </tr>`;
+        });
+        gradesTableBody.innerHTML = htmlRows.join("");
+        
+    })
+    .catch(err => {
+        console.error("Error fetching student grades:", err);
+    })
+}
 
 
-// get the grades for the selected module
+

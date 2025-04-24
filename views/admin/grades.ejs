@@ -15,36 +15,47 @@
     <div class="grid-box">
         <div class="container">
 
-            <div class="field">
-                <label class="label">Search For a Module</label>
-                <div class="control">
-                  <div class="dropdown" id="moduleDropdown">
-                    <div class="dropdown-trigger">
-                      <input class="input" type="text" placeholder="Type module name..." id="moduleSearch">
+            <div class="boxx">
+              <div class="searchBox">
+                <div class="dropdown" id="moduleDropdown">
+                     <div class="control">
+                         <input class="input" type="text" id="moduleSearch" placeholder="Search for a module...." oninput="filterDropdown()">
+                     </div>
+
+                     <div class="dropdown-menu" role="menu">
+                         <div class="dropdown-content" id="moduleList">
+                             <% modules.forEach(module => { %>
+                                 <a class="dropdown-item" onclick="selectModule('<%= module.module_id %>', '<%= module.module_title %>')">
+                                     <%= module.module_title %> 
+                                 </a>
+                            <% }) %>
+                         </div>
                     </div>
-                    <div class="dropdown-menu" id="moduleList" role="menu">
-                      <div class="dropdown-content">
-                        <% modules.forEach(module => { %>
-                          <a href="#" class="dropdown-item module-option" data-id="<%= module.module_id %>">
-                            <%= module.module_title %>
-                          </a>
-                        <% }) %>
-                      </div>
-                    </div>
-                  </div>
                 </div>
+             </div>
             </div>
 
-            <table class="table is-striped is-fullwidth mt-5">
+            <div class="table-box">
+              <table class="table">
                 <thead>
                   <tr>
                     <th>Student ID</th>
                     <th>Name</th>
                     <th>First Grade</th>
+                    <th>Grade Result</th>
+                    <th>Resit Grade</th>
+                    <th>Resit Result</th>
+                    <th>Semester</th>
+                    <th>Academic Year</th>
                   </tr>
+
                 </thead>
                 <tbody id="gradesTableBody"></tbody>
             </table>
+
+            </div>
+
+           
 
             <button id="submitGrades" class="button is-primary is-hidden mt-3">Save Grades</button>
             

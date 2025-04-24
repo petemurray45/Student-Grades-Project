@@ -12,7 +12,7 @@ bcrypt.hash(password, 10, (err, hash) => {
     console.log("Hashed Password:", hash);
 
     const sql = `INSERT INTO users 
-    (username, password_hash, role, student_id) WHERE
+    (username, password_hash, role, student_id) 
     VALUES (?, ?, 'admin', NULL)`;
 
     connection.query(sql, [username, hash], (err2) => {

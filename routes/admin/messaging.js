@@ -4,7 +4,7 @@ const connection = require("../../connection.js")
 
 
 router.get("/messaging", (req, res)=> {
-    res.render("messaging");
+    res.render("admin/messaging");
 })
 
 router.get("/send", (req, res)=> {
