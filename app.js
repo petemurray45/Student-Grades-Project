@@ -8,6 +8,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
+
 //admin routes
 const loginRoute = require("./routes/login.js");
 const modulesRoute = require("./routes/admin/modules");
@@ -29,15 +30,10 @@ app.use("/", modulesRoute);
 app.use("/", messagesRoute);
 app.use("/", gradesRoute);
 app.use("/", searchRoute);
-
 app.use("/", studentMessages);
-
-
-
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
 
 
 app.listen(3000, (err)=>{

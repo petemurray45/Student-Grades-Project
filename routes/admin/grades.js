@@ -50,7 +50,8 @@ router.post("/grades/update", async (req, res)=>{
 
     connection.query(sql, [student_id, first_grade, grade_result, resit_grade, resit_result, semester, academic_year], (err) => {
         if (err) return res.status(500).json({ error: "Update Failed"});
-        res.json({ success: true});
+        
+
     } )
 });
 
