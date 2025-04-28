@@ -34,18 +34,22 @@
   color: black !important;
 }
 
+.table-box {
+  height: 100%;
+  width: 100%;
+}
+
+.boxx {
+  border-radius: 6px;
+  
+}
+
+.grid-box {
+  padding: 5%;
+}
+
+
 .module-box {
   display: flex;
   flex-direction: column;
-}
-
-#moduleSearch::placeholder {
-  color: black;
-}
-
-
-
-#gradesTableBody {
-  padding: 0.5rem;
-  
 }

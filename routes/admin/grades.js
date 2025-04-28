@@ -29,26 +29,26 @@ router.get("/grades/module/:id", (req, res)=>{
     WHERE g.module_id = ?
     ORDER BY s.first_name, s.last_name`
 
-    connection.query(readSql, [moduleId], (err, rows)=> {
+    connection.query(readSql, [moduleId], (err, grades)=> {
         if (err) {
             console.error("QUERY ERROR:", err);
             return res.status(500).send("Database error");
         }
-        console.log("Returning rows:", rows);
-        res.json(rows);
+        console.log("Returning rows:", grades);
+        res.json(grades);
     })
 })
 
 router.post("/grades/update", async (req, res)=>{
     
-    const {sID, first_grade, grade_result, resit_grade, resit_result} = req.body;
+    const {student_id, first_grade, grade_result, resit_grade, resit_result, semester, academic_year} = req.body;
 
     const sql = `
     UPDATE grades
-    SET first_grade = ?, grade_result = ?, resit_grade = ?, resit_result = ?
-    WHETE student_id = ?`;
+    SET first_grade = ?, grade_result = ?, resit_grade = ?, resit_result = ?, semester = ?, academic_year = ?
+    WHERE student_id = ?`;
 
-    connection.query(sql, [first_grade, grade_result, resit_grade, resit_result, sID], (err) => {
+    connection.query(sql, [student_id, first_grade, grade_result, resit_grade, resit_result, semester, academic_year], (err) => {
         if (err) return res.status(500).json({ error: "Update Failed"});
         res.json({ success: true});
     } )
