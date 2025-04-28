@@ -153,7 +153,7 @@ document.addEventListener('submit', function(e) {
       .then(res => res.json())
       .then(response => {
         if (response.success) {
-          alert('✅ Grade updated successfully!');
+          alert('Grade updated successfully!');
   
           const row = document.querySelector(`tr[data-student-id="${data.student_id}"]`);
           if (row) {
