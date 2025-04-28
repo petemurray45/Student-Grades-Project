@@ -6,6 +6,14 @@ router.get("/progression", (req, res) => {
     res.render("admin/progression")
 })
 
+router.get("/rules", (req, res) => {
+    res.render("admin/rules");
+})
+
+router.get("/studentProgression", (req, res) => {
+    res.render("admin/studentProgression")
+});
+
 
 
 
