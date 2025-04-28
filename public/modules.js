@@ -1,35 +1,44 @@
+const tableBody = document.getElementById('modulesTableBody'); 
 
 
-document.querySelectorAll(".edit-btn").forEach(button => {
-    button.addEventListener("click", ()=> {
-        const module = JSON.parse(button.dataset.module);
 
-        document.getElementById('module-id').value = module.module_id;
-        document.getElementById('module-title').value = module.module_title;
-        document.getElementById('credit-value').value = module.credit_value;
-        document.getElementById('core-module').value = module.core_module;
-        document.getElementById('editModuleModal').classList.add('is-active');
-    })
-})
-
-function closeModuleModal(){
-    document.getElementById("editModuleModal").classList.remove("is-active");
+function toggleEditForm(index) {
+  const formRow = document.getElementById('edit-form-row-' + index);
+  if (formRow.style.display === 'none') {
+    formRow.style.display = 'table-row';
+  } else {
+    formRow.style.display = 'none';
+  }
 }
 
-function submitModuleEdit(){
-    const id = document.getElementById('module-id').value;
-    const title = document.getElementById('module-title').value;
-    const credits = document.getElementById('credit-value').value;
-    const core = document.getElementById('core-module').value;
 
-    fetch("admin/modules/update", {
-        method: "POST",
-        headers: { "Content-Type": "application/json"},
-        body: JSON.stringify({id, title, credits, core})
+document.addEventListener('submit', function(e) {
+  if (e.target && e.target.classList.contains('edit-module-form')) {
+    e.preventDefault();
+
+    const form = e.target;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    fetch('/admin/modules/update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
     })
     .then(res => res.json())
-    .then(()=> {
-        closeModuleModal();
-        location.reload();
+    .then(response => {
+      if (response.success) {
+        alert('Module updated successfully!');
+        this.location.reload();
+      } else {
+        alert('Failed to update module.');
+      }
     })
-}
+    .catch(error => {
+      console.error('Error updating module:', error);
+    });
+  }
+});
+
+
+document.addEventListener('DOMContentLoaded', loadModules);

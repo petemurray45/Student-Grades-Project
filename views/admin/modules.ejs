@@ -24,67 +24,62 @@
                           <th>Core Module</abbr></th>
                         </tr> 
                       </thead>
-                    <tbody>
-                        <% modules.forEach((module, index) => { %>
-                            <tr>
-                                <td><%= module.subj_code %></td>
-                                <td><%= module.module_title %></td>
-                                <td><%= module.credit_value %></td>
-                                <td><%= module.core_module %></td>
-                                <td>
-                                    <button class="button is-small is-info edit-btn" data-module="<%= JSON.stringify(module) %>">Edit</button>
-                                </td> 
-                            </tr>
-                       <% }); %>
+                    <tbody id="modulesTableBody">
+
+                      <% modules.forEach((module, index) => { %>
+                        <tr>
+                          <td><%= module.subj_code %></td>
+                          <td><%= module.module_title %></td>
+                          <td><%= module.credit_value %></td>
+                          <td><%= module.core_module %></td>
+                          <td>
+                            <button class="button" onclick="toggleEditForm('<%= index %>')">Edit</button>
+                          </td>
+                        </tr>
+
+                        <tr id="edit-form-row-<%= index %>" style="display:none;">
+                          <td colspan="5">
+                            <form action="/admin/modules/update" method="POST">
+                              <input type="hidden" name="module_id" value="<%= module.module_id %>">
+
+                              <div class="field">
+                                <label class="label">Subject Code</label>
+                                <input class="input" type="text" name="code" value="<%= module.subj_code %>">
+                              </div>
+                        
+                              <div class="field">
+                                <label class="label">Title</label>
+                                <input class="input" type="text" name="title" value="<%= module.module_title %>">
+                              </div>
+                        
+                              <div class="field">
+                                <label class="label">Credit Value</label>
+                                <input class="input" type="number" name="credit_value" value="<%= module.credit_value %>">
+                              </div>
+
+                              <div class="field">
+                                <label class="label">Core Module</label>
+                                <div class="control">
+                                  <div class="select">
+                                    <select name="core_module">
+                                      <option value="YES" <%= module.core_module === 'YES' ? 'selected' : '' %>>YES</option>
+                                      <option value="NO" <%= module.core_module === 'NO' ? 'selected' : '' %>>NO</option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+                        
+                              <button type="submit" class="button is-success mt-2">Save</button>
+                            </form>
+                          </td>
+                        </tr>
+                      <% }) %>
+                       
                     </tbody>
                 </table>
 
 
-                <div class="modal" id="editModuleModal">
-                    <div class="modal-background" onclick="closeModuleModal()"></div>
-                    <div class="modal-card">
-                      <header class="modal-card-head">
-                        <p class="modal-card-title">Edit Module</p>
-                        <button class="delete" aria-label="close" onclick="closeModuleModal()"></button>
-                      </header>
-                      <section class="modal-card-body">
-                        <form id="editModuleForm" onsubmit="submitModuleEdit(); return false">
-                          <input type="hidden" id="module-id">
-                  
-                          <div class="field">
-                            <label class="label">Module Title</label>
-                            <div class="control">
-                              <input class="input" type="text" id="module-title" required>
-                            </div>
-                          </div>
-                  
-                          <div class="field">
-                            <label class="label">Credits</label>
-                            <div class="control">
-                              <input class="input" type="number" id="credit-value" required>
-                            </div>
-                          </div>
-                  
-                          <div class="field">
-                            <label class="label">Core Module</label>
-                            <div class="control">
-                              <div class="select">
-                                <select id="core-module">
-                                  <option value="YES">YES</option>
-                                  <option value="NO">NO</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
-                      </section>
-                      <footer class="modal-card-foot">
-                        <button class="button is-success" onclick="submitModuleEdit()">Save</button>
-                        <button class="button" onclick="closeModuleModal()">Cancel</button>
-                      </footer>
-                    </div>
-                  </div>
-                <div style="height: 2rem;"></div>
+                
 
             </div>
           </div>
