@@ -51,9 +51,9 @@ function selectModule(moduleId, moduleTitle) {
         data.forEach((grade, index) => {
           
           const row = document.createElement('tr');
-          row.setAttribute('data-student-id', grade.sID);
+          row.setAttribute('data-student-id', grade.student_id);
           row.innerHTML = `
-            <td>${grade.sID}</td>
+            <td>${grade.student_id}</td>
             <td>${grade.name}</td>
             <td>${grade.first_grade}</td>
             <td>${grade.grade_result}</td>
@@ -72,7 +72,9 @@ function selectModule(moduleId, moduleTitle) {
           formRow.innerHTML = `
             <td colspan="9">
               <form class="edit-grade-form">
-                <input type="hidden" name="student_id" value="${grade.sID}">
+                <input type="hidden" name="student_id" value="${grade.student_id}">
+                <input type="hidden" name="module_id" value="${grade.module_id}">
+
   
                 <div class="field">
                   <label class="label">First Grade</label>
@@ -94,7 +96,7 @@ function selectModule(moduleId, moduleTitle) {
                 </div>
   
                 <div class="field">
-                  <label>Resit Grade</label>
+                  <label class="label">Resit Grade</label>
                   <input class="input" type="number" name="resit_grade" value="${grade.resit_grade}">
                 </div>
   
@@ -144,6 +146,8 @@ document.addEventListener('submit', function(e) {
       const form = e.target;
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
+
+      console.log("Form Data:", data); 
   
       fetch('/grades/update', {
         method: 'POST',

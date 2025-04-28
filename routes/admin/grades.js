@@ -22,7 +22,7 @@ router.get("/grades/module/:id", (req, res)=>{
 
     console.log("Module ID received:", moduleId);
     const readSql = `
-    SELECT s.sID, CONCAT(s.first_name, ' ', s.last_name) AS name, g.first_grade, UPPER(g.grade_result) AS grade_result, 
+    SELECT s.sID AS student_id, CONCAT(s.first_name, ' ', s.last_name) AS name, g.module_id, g.first_grade, UPPER(g.grade_result) AS grade_result, 
     g.resit_grade, UPPER(g.resit_result) AS resit_result, g.semester, g.academic_year
     FROM grades g
     JOIN students s ON g.student_id = s.sID
@@ -41,15 +41,21 @@ router.get("/grades/module/:id", (req, res)=>{
 
 router.post("/grades/update", async (req, res)=>{
     
-    const {student_id, first_grade, grade_result, resit_grade, resit_result, semester, academic_year} = req.body;
+    const {student_id, module_id, first_grade, grade_result, resit_grade, resit_result, semester, academic_year} = req.body;
 
     const sql = `
     UPDATE grades
     SET first_grade = ?, grade_result = ?, resit_grade = ?, resit_result = ?, semester = ?, academic_year = ?
-    WHERE student_id = ?`;
+    WHERE student_id = ? AND module_id = ?`;
 
-    connection.query(sql, [student_id, first_grade, grade_result, resit_grade, resit_result, semester, academic_year], (err) => {
+    connection.query(sql, [first_grade, grade_result, resit_grade, resit_result, semester, academic_year, student_id, module_id], (err, result) => {
         if (err) return res.status(500).json({ error: "Update Failed"});
+
+        if (result.affectedRows === 0) {
+            console.error('No rows were updated — likely wrong student_id or module_id');
+            return res.status(404).json({ error: "No record updated" });
+        }
+        res.json({ success: true });
         
 
     } )
