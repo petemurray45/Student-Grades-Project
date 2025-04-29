@@ -3,10 +3,10 @@ const router = express.Router();
 const connection = require("../../connection.js");
 const { calculateAverageGradeAndCredits, checkCoreModulesPassed, applyRules, classifyModuleResult } = require("../../public/helpers/progressionCalculations.js");
 
-async function getProgressionRule(degreeProgram, db) {
+async function getProgressionRule(degreeProgram, academic_level, db) {
     const [rules] = await db.query(
-        "SELECT * FROM progression_rules WHERE degree_programme = ?",
-        [degreeProgram]
+        "SELECT * FROM progression_rules WHERE degree_programme = ? AND academic_level = ?",
+        [degreeProgram, academic_level]
     );
     return rules[0];
 }
@@ -29,7 +29,7 @@ router.get("/calculate", async (req, res)=> {
 
             // fecth the students degree
             const [degree] = await connection.promise().query(
-                "SELECT pathway FROM students WHERE sID = ?",
+                "SELECT pathway, academic_level FROM students WHERE sID = ?",
                 [studentID]
             );
 
@@ -41,10 +41,11 @@ router.get("/calculate", async (req, res)=> {
 
 
             const studentDegree = degree[0]?.pathway || null;
+            const academicLevel = degree[0]?.academic_level;
             if(!studentDegree) continue;
 
             // get progression rules
-            const rule = await getProgressionRule(studentDegree, connection.promise());
+            const rule = await getProgressionRule(studentDegree, academicLevel, connection.promise());
             if (!rule){
                 console.warn(`No progression rule found for ${studentDegree}`);
                 continue;
@@ -54,7 +55,7 @@ router.get("/calculate", async (req, res)=> {
             const {totalCredits, averageGrade} = calculateAverageGradeAndCredits(grades);
 
             // check if core modules passed
-            const passedCore = await checkCoreModulesPassed(studentID, degree, connection.promise());
+            const passedCore = await checkCoreModulesPassed(studentID, studentDegree, connection.promise());
 
             // assigns individual module results
             for (const grade of grades){
@@ -73,7 +74,7 @@ router.get("/calculate", async (req, res)=> {
 
             let decision = "Progress";
             
-            if (!meetsCredits || meetsGrades || meetsCoreModules){
+            if (!meetsCredits || !meetsGrades || !meetsCoreModules){
 
                 const failedModules = grades.filter(grade => {
                     return ["FAIL", "ABSENT", "EXCUSED"].includes(
