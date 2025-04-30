@@ -20,7 +20,7 @@ document.addEventListener('submit', function(e) {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
-    fetch('/admin/modules/update', {
+    fetch('/modules/update', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
@@ -29,7 +29,26 @@ document.addEventListener('submit', function(e) {
     .then(response => {
       if (response.success) {
         alert('Module updated successfully!');
-        this.location.reload();
+
+        
+        const index = form.dataset.index;  
+
+        
+        const subjCode = form.querySelector('input[name="subj_code"]').value;
+        const moduleTitle = form.querySelector('input[name="module_title"]').value;
+        const creditValue = form.querySelector('input[name="credit_value"]').value;
+        const coreModule = form.querySelector('select[name="core_module"]').value;
+
+       
+        const row = document.getElementById(`module-row-${index}`);
+        row.children[0].textContent = subjCode;
+        row.children[1].textContent = moduleTitle;
+        row.children[2].textContent = creditValue;
+        row.children[3].textContent = coreModule;
+
+        
+        const formRow = document.getElementById(`edit-form-row-${index}`);
+        formRow.style.display = 'none';
       } else {
         alert('Failed to update module.');
       }
@@ -40,5 +59,3 @@ document.addEventListener('submit', function(e) {
   }
 });
 
-
-document.addEventListener('DOMContentLoaded', loadModules);

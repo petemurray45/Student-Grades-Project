@@ -15,7 +15,7 @@ router.get("/modules", (req, res)=> {
 });
 
 router.post("/modules/update", (req, res)=> {
-    const { module_id, module_title, credit_value, core_module, subj_code} = req.body;
+    const { module_id, subj_code, module_title, credit_value, core_module} = req.body;
     const updateQuery = `
     UPDATE modules
     SET subj_code = ?, module_title = ?, credit_value = ?, core_module = ?

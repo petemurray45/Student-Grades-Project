@@ -44,12 +44,13 @@ router.post("/send", (req, res) => {
     // if there is only one reciever of the message wrap it in an array
     const recipientArray = recipient_ids.split(",").filter(Boolean);
     const values = recipientArray.map(recipientId => [senderID, recipientId, message]);
-    const sql = `INSERT INTO messages (sender_id, recipient_id, message) VALUES ?`;
+    const sql = `INSERT INTO messages (sender_id, recipient_id, message_text) VALUES ?`;
 
     connection.query(sql, [values], (err, result)=> {
         if (err) throw err;
-        res.redirect("admin/messaging")
+        res.redirect("/messaging")
     })
+   
 })
 
 

@@ -1,6 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const connection = require("../../connection.js");
+const multer = require("multer");
+const csv = require("csv-parser");
+const fs = require("fs");
+const { resolve } = require("path");
+const { rejects } = require("assert");
+const upload = multer({dest:"uploads/"});
 
 router.get("/grades", async (req, res) => {
     const sql = `SELECT module_id, TRIM(module_title) AS module_title
@@ -60,5 +66,84 @@ router.post("/grades/update", async (req, res)=>{
 
     } )
 });
+
+router.post("/upload", upload.single("gradesCSV"), (req, res) => {
+    const filePath = req.file.path;
+    const results = [];
+    let added = 0, updated = 0;
+
+    fs.createReadStream(filePath)
+        .pipe(csv())
+        .on("data", (row) => results.push(row))
+        .on("end", ()=> {
+            try {
+                for (const row of results){
+                    const { student_id, module_code, academic_year, first_grade, grade_result, resit_grade, resit_result, semester } = row;
+                    
+                    // grab module id from subj code 
+                    const moduleResult = await new Promise((resolve, reject) => {
+                        connection.query(
+                            "SELECT module_id FROM modules WHERE subj_code = ?",
+                            [module_code],
+                            (err, results) => {
+                                if (err) return reject (err);
+                                if (results.length === 0) return resolve(null); //if the module isnt found
+                                resolve(results[0].module_id);
+                            }
+                        )
+                    })
+
+                    if (!moduleResult) continue; // skips the row parsed if the module isnt found
+
+                    // this checks if the grade record already exists
+                    const doesExist = await new Promise((resolve, reject) => {
+                        connection.query(
+                            'SELECT * FROM grades WHERE student_id = ? AND module_id = ? AND academic_year = ?',
+                            [student_id, moduleResult, academic_year],
+                            (err, rows) => {
+                                if (err) return reject(err);
+                                resolve(rows.length > 0);
+                            }
+                        )
+                    })
+                    
+                    // updates the existing row
+                    if (doesExist){
+                        await new Promise((resolve, reject) => {
+                            connection.query(
+                                `UPDATE grades SET first_grade = ?, grade_result = ?, resit_grade = ?, resit_result = ?, semester = ?
+                                WHERE student_id = ? AND module_id = ? AND academic_year = ?`,
+                                [first_grade, grade_result, resit_grade, resit_result, semester, student_id, moduleResult, academic_year],
+                                (err) => {
+                                    if (err) return reject(err);
+                                    updated++;
+                                    resolve();
+                                }
+                            )
+                        })
+                    } else {
+                        // inserts new row if grade record doesn't already exist
+                        await new Promise((resolve, reject) => {
+                            connection.query(
+                                `INSERT INTO grades (student_id, module_id, academic_year, first_grade, grade_result, resit_grade, resit_result, semester)
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+                                [student_id, moduleResult, academic_year, first_grade, grade_result, resit_grade, resit_result, semester],
+                                (err) => {
+                                    if (err) return reject(err);
+                                    added++;
+                                    resolve();
+                                }
+                            )
+                        })
+                    }
+                }
+                fs.unlinkSync(filePath);
+                res.json({added, updated});
+            } catch(err){
+                console.error(err);
+                res.status(500).json({error: "Failed to read CSV"});
+            }
+        }) 
+})
 
 module.exports = router;

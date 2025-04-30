@@ -14,11 +14,6 @@
     <div class="grid-box">
         <div class="container">
           <div class="module-box">
-            <div class="title-box">
-              <h1 class="title">
-                Edit Progression Rules
-              </h1>
-            </div>
             <div class="table-box">
                 <table class="table">
                     <thead>
@@ -33,10 +28,10 @@
 
                       <% modules.forEach((module, index) => { %>
                         <tr>
-                          <td><%= module.subj_code %></td>
-                          <td><%= module.module_title %></td>
-                          <td><%= module.credit_value %></td>
-                          <td><%= module.core_module %></td>
+                          <td class="subjCodeCell"><%= module.subj_code %></td>
+                          <td class="subjCodeCell"><%= module.module_title %></td>
+                          <td class="subjCodeCell"><%= module.credit_value %></td>
+                          <td class="subjCodeCell"><%= module.core_module %></td>
                           <td>
                             <button class="button" onclick="toggleEditForm('<%= index %>')">Edit</button>
                           </td>
@@ -44,17 +39,17 @@
 
                         <tr id="edit-form-row-<%= index %>" style="display:none;">
                           <td colspan="5">
-                            <form action="/admin/modules/update" method="POST">
+                            <form class="edit-module-form" method="POST" data-index="<% index %>">
                               <input type="hidden" name="module_id" value="<%= module.module_id %>">
 
                               <div class="field">
                                 <label class="label">Subject Code</label>
-                                <input class="input" type="text" name="code" value="<%= module.subj_code %>">
+                                <input class="input" type="text" name="subj_code" value="<%= module.subj_code %>">
                               </div>
                         
                               <div class="field">
                                 <label class="label">Title</label>
-                                <input class="input" type="text" name="title" value="<%= module.module_title %>">
+                                <input class="input" type="text" name="module_title" value="<%= module.module_title %>">
                               </div>
                         
                               <div class="field">

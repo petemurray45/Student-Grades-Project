@@ -181,6 +181,7 @@ document.addEventListener('submit', function(e) {
     }
   });
 
+
 function toggleGradeForm(index) {
     const formRow = document.getElementById('form-row-' + index);
     if (formRow.style.display === 'none') {
@@ -188,4 +189,25 @@ function toggleGradeForm(index) {
     } else {
       formRow.style.display = 'none';
     }
-  }
+}
+
+document.getElementById("csvUploadForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const formData = new FormData(this);
+
+  fetch("/grades/upload", {
+    method: "POST",
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    const resultBox = document.getElementById("uploadResult");
+    resultBox.style.display = "block";
+    resultBox.textContent = `Grades processed ${data.added} added, ${data.updated} updated.`;
+  })
+  .catch(err => {
+    alert("Error uploading CSV");
+    console.error(err);
+  })
+})

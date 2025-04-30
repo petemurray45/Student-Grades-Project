@@ -18,44 +18,67 @@
           <div class="module-box">
 
             <div class="module-box">
-              <h1 class="title">Student Grades</h1>
-              <div class="searchBox">
-                <div class="dropdown" id="moduleDropdown">
-                     <div class="control">
-                         <input class="input" type="text" id="moduleSearch" placeholder="Search for a module...." oninput="filterDropdown()">
-                     </div>
+              <div class="title-box1">
+                <h1 class="title">Student Grades</h1>
+                <div class="searchBox">
+                  <div class="dropdown" id="moduleDropdown">
+                      <div class="control">
+                          <input class="input" type="text" id="moduleSearch" placeholder="Search for a module...." oninput="filterDropdown()">
+                      </div>
 
-                     <div class="dropdown-menu" role="menu">
-                         <div class="dropdown-content" id="moduleList">
-                             <% modules.forEach(module => { %>
-                                 <a class="dropdown-item" onclick="selectModule('<%= module.module_id %>', '<%= module.module_title %>')">
-                                     <%= module.module_title %> 
-                                 </a>
-                            <% }) %>
-                         </div>
-                    </div>
+                      <div class="dropdown-menu" role="menu">
+                          <div class="dropdown-content" id="moduleList">
+                              <% modules.forEach(module => { %>
+                                  <a class="dropdown-item" onclick="selectModule('<%= module.module_id %>', '<%= module.module_title %>')">
+                                      <%= module.module_title %> 
+                                  </a>
+                              <% }) %>
+                          </div>
+                      </div>
+                  </div>
                 </div>
-             </div>
+              </div>
+
+              <div class="csvBox">
+                <form id="csvUploadForm" enctype="multipart/form-data" class="box" style="margin-bottom: 1rem;">
+                  <div class="field">
+                    <label class="label">Upload Grades CSV</label>
+                    <div class="control">
+                      <input class="input" type="file" name="gradesCSV" accept=".csv" required>
+                    </div>
+                  </div>
+                
+                  <div class="field">
+                    <div class="control">
+                      <button class="button is-primary" type="submit">Upload</button>
+                    </div>
+                  </div>
+                
+                  <div id="uploadResult" class="notification is-info" style="display: none;"></div>
+                </form>
+              </div>
+              
+              
 
              <div class="table-box">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th>Student ID</th>
-                      <th>Name</th>
-                      <th>First Grade</th>
-                      <th>Grade Result</th>
-                      <th>Resit Grade</th>
-                      <th>Resit Result</th>
-                      <th>Semester</th>
-                      <th>Academic Year</th>
-                    </tr>
+                  <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Student ID</th>
+                          <th>Name</th>
+                          <th>First Grade</th>
+                          <th>Grade Result</th>
+                          <th>Resit Grade</th>
+                          <th>Resit Result</th>
+                          <th>Semester</th>
+                          <th>Academic Year</th>
+                        </tr>
 
-                </thead>
-                <tbody id="gradesTableBody">
-            
-                </tbody>
-            </table>
+                      </thead>
+                      <tbody id="gradesTableBody">
+                  
+                      </tbody>
+                </table>  
 
                 
               </div>

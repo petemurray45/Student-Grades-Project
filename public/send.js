@@ -58,7 +58,17 @@ function updateRecipient(){
     })
 }
 
+function validateForm() {
+    updateRecipientInput(); 
+    const hiddenInput = document.getElementById("recipientIdsInput");
+    if (!hiddenInput.value) {
+        alert("Please select at least one recipient.");
+        return false;
+    }
+    return true;
+}
+
 function updateRecipientInput(){
-    const hiddenInput = document.getElementById("recipientIdInput");
+    const hiddenInput = document.getElementById("recipientIdsInput");
     hiddenInput.value = Array.from(selectedRecipients.keys()).join(",");
 }

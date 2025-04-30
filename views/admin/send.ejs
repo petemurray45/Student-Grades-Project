@@ -51,11 +51,12 @@
                         </div>
                     </div>
                 </div>
-                <input type="hidden" name="recipient_ids" id="recipientIdsInput">
+                
 
                 <div class="form-box">
-                    <form method="POST" action="/send">
-                    
+
+                    <form method="POST" action="/send" onsubmit="return validateForm()">
+                        <input type="hidden" name="recipient_ids" id="recipientIdsInput">
                         <div class="field">
                             <label class="label">Message</label>
                             <div class="control">
