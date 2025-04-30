@@ -279,7 +279,7 @@ body {
   background-color: #33cbaf;
   border-radius: 1.5%;
   overflow-y: auto;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .table-box {
@@ -318,8 +318,9 @@ body {
 
 form.box {
   background-color: #33cbaf;
-  border: solid black;
+  border: solid thin black;
   color: black;
+  margin-bottom: 2rem;
 }
 
 .button {
@@ -367,4 +368,11 @@ form.box {
   color: black;
 }
 
+.title-box1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
 

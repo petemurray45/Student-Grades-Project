@@ -71,7 +71,7 @@ function selectModule(moduleId, moduleTitle) {
           formRow.style.display = 'none';
           formRow.innerHTML = `
             <td colspan="9">
-              <form class="edit-grade-form">
+              <form class="box edit-grade-form">
                 <input type="hidden" name="student_id" value="${grade.student_id}">
                 <input type="hidden" name="module_id" value="${grade.module_id}">
 
@@ -205,6 +205,21 @@ document.getElementById("csvUploadForm").addEventListener("submit", function(e){
     const resultBox = document.getElementById("uploadResult");
     resultBox.style.display = "block";
     resultBox.textContent = `Grades processed ${data.added} added, ${data.updated} updated.`;
+
+    // dynamically update table rows if any of the updated csv data is on screen
+    if (data.updatedRows && Array.isArray(data.updatedRows)) {
+      data.updatedRows.forEach(updated => {
+        const row = document.querySelector(`tr[data-student-id="${updated.student_id}"]`);
+        if (row) {
+          row.children[2].textContent = updated.first_grade ?? 'N/A';
+          row.children[3].textContent = updated.grade_result ? updated.grade_result.toUpperCase() : 'N/A';
+          row.children[4].textContent = updated.resit_grade ?? 'N/A';
+          row.children[5].textContent = updated.resit_result ? updated.resit_result.toUpperCase() : 'N/A';
+          row.children[6].textContent = updated.semester ?? 'N/A';
+          row.children[7].textContent = updated.academic_year ?? 'N/A';
+        }
+      });
+    }
   })
   .catch(err => {
     alert("Error uploading CSV");

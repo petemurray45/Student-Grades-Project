@@ -67,7 +67,7 @@ router.post("/grades/update", async (req, res)=>{
     } )
 });
 
-router.post("/upload", upload.single("gradesCSV"), (req, res) => {
+router.post("/grades/upload", upload.single("gradesCSV"), (req, res) => {
     const filePath = req.file.path;
     const results = [];
     let added = 0, updated = 0;
@@ -75,23 +75,26 @@ router.post("/upload", upload.single("gradesCSV"), (req, res) => {
     fs.createReadStream(filePath)
         .pipe(csv())
         .on("data", (row) => results.push(row))
-        .on("end", ()=> {
+        .on("end", async ()=> {
             try {
+                
                 for (const row of results){
-                    const { student_id, module_code, academic_year, first_grade, grade_result, resit_grade, resit_result, semester } = row;
+                    const { student_id, subj_code, subj_catalog, academic_year, first_grade, grade_result, resit_grade, resit_result, semester } = row;
+
                     
-                    // grab module id from subj code 
+                    
+                    // grab module id from subj code and subj catalog 
                     const moduleResult = await new Promise((resolve, reject) => {
                         connection.query(
-                            "SELECT module_id FROM modules WHERE subj_code = ?",
-                            [module_code],
+                            "SELECT module_id FROM modules WHERE subj_code = ? AND subj_catalog = ?",
+                            [subj_code, subj_catalog],
                             (err, results) => {
-                                if (err) return reject (err);
-                                if (results.length === 0) return resolve(null); //if the module isnt found
+                                if (err) return reject(err);
+                                if (results.length === 0) return resolve(null);
                                 resolve(results[0].module_id);
                             }
-                        )
-                    })
+                        );
+                    });
 
                     if (!moduleResult) continue; // skips the row parsed if the module isnt found
 
