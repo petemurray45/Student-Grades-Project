@@ -3,21 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./ui/admin/stylesProgression.css">
     <link rel="stylesheet" href="./ui/admin/stylesModules.css">
     <link rel="stylesheet" href="./ui/admin/stylesMessaging.css">
-    <link rel="stylesheet" href="./ui/admin/stylesModules.css">
+    
     <title>Edit Progression Rules</title>
 </head>
 <body>
     <%- include ("../partials/sidebar") %>
 
     <div class="grid-box">
-        <div class="container">
+        <div class="container1">
             <div class="module-box">
+                <div class="table-box">
+                    <div class="title-box">
+                        <h1 class="title">
+                            Edit Progression Rules
+                        </h1>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Pathway</th>
+                                <th>Academic Year</th>
+                                <th>Required Credits</th>
+                                <th>Minimum Pass Mark</th>
+                                <th>All Modules Required</th>
+                            </tr>
+                        </thead>
+                        <% progressionRules.forEach((rule, index) => { %>
+                            <tr class="table-row">
+                              <td><%= rule.degree_programme %></td>
+                              <td><%= rule.academic_level %></td>
+                              <td><%= rule.min_credits %></td>
+                              <td><%= rule.min_average_grade %></td>
+                              <td><%= rule.all_modules_required ? "YES" : "NO" %></td>
+                              <td>
+                                <button class="button" onclick="toggleEdit('<%= index %>')">Edit</button>
+                              </td>
+                            </tr>
+                      
+                            <tr id="edit-form-row-<%= index %>" style="display:none;">
+                              <td colspan="6">
+                                <form action="/rules/update" method="POST">
+                                  <input type="hidden" name="id" value="<%= rule.id %>">
+                      
+                                  <div class="field">
+                                    <label class="label">Degree Programme</label>
+                                    <input class="input" type="text" name="degree_programme" value="<%= rule.degree_programme %>">
+                                  </div>
+                      
+                                  <div class="field">
+                                    <label class="label">Academic Level</label>
+                                    <select class="input" name="academic_level">
+                                      <option value="L1" <%= rule.academic_level === "L1" ? "selected" : "" %>>L1</option>
+                                      <option value="L2" <%= rule.academic_level === "L2" ? "selected" : "" %>>L2</option>
+                                    </select>
+                                  </div>
+                      
+                                  <div class="field">
+                                    <label class="label">Minimum Credits</label>
+                                    <input class="input" type="number" name="min_credits" value="<%= rule.min_credits %>">
+                                  </div>
+                      
+                                  <div class="field">
+                                    <label class="label">Minimum Average Grade</label>
+                                    <input class="input" type="number" name="min_average_grade" step="0.1" value="<%= rule.min_average_grade %>">
+                                  </div>
+                      
+                                  <div class="field">
+                                    <label class="label">All Modules Required</label>
+                                    <select name="all_modules_required" class="input">
+                                      <option value="1" <%= rule.all_modules_required ? "selected" : "" %>>YES</option>
+                                      <option value="0" <%= !rule.all_modules_required ? "selected" : "" %>>NO</option>
+                                    </select>
+                                  </div>
+                      
+                                  <button class="button is-success mt-2" type="submit">Save</button>
+                                </form>
+                              </td>
+                            </tr>
+                          <% }) %>
+
+                    </table>
+                </div>
 
             </div>
         </div>
     </div>
+
+    <script src="/rules.js"></script>
     
 </body>
 </html>

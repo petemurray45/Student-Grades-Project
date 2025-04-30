@@ -13,3 +13,24 @@
 .title-box {
     margin-bottom: 2rem;
 }
+
+.table-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.container1 {
+    width: 100%;
+    
+}
+
+.module-box {
+    max-height: 70vh;
+    overflow-y: auto;
+    transition: max-height 0.3s ease;
+}
+
+.module-box.collapsed {
+    max-height: none; 
+    overflow-y: visible;
+  }

@@ -153,6 +153,23 @@ router.get("/calculate", async (req, res)=> {
     }
 })
 
+router.get("/rules", async (req, res) => {
+    const [rules] = await connection.promise().query("SELECT * FROM progression_rules");
+    res.render("admin/rules", { progressionRules: rules });
+  });
+  
+  router.post("/rules/update", async (req, res) => {
+    const { id, degree_programme, academic_level, min_credits, min_average_grade, all_modules_required } = req.body;
+  
+    await connection.promise().query(`
+      UPDATE progression_rules
+      SET degree_programme = ?, academic_level = ?, min_credits = ?, min_average_grade = ?, all_modules_required = ?
+      WHERE id = ?
+    `, [degree_programme, academic_level, min_credits, min_average_grade, all_modules_required, id]);
+  
+    res.redirect("/admin/rules");
+});
+
 router.get("/progression", (req, res) => {
     res.render("admin/progression")
 })
