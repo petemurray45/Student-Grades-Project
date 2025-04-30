@@ -1,50 +1,67 @@
 
+
+
 // function to calculate the average grade for the student
-function calculateAverageGradeAndCredits(grades){
+function calculateAverageGradeAndCredits(grades, academicLevel){
 
     // variables for storing details used to calculate average
 
     let totalCredits = 0;
     let totalGrades = 0;
     let gradeCount = 0;
+    const filteredGrades = grades.filter(grade => grade.academic_level === academicLevel);
+    const processedModules = new Set();
 
-    grades.forEach(grade => {
-        const { first_grade, resit_grade, grade_result, resit_result, credit_value } = grade;
+        filteredGrades.forEach(grade => {
 
-        // verify if module has been passed in either the first attempt or in a resit
-        const passed = (grade_result && grade_result.toLowerCase().includes("pass")) || (resit_result && resit_result.toLowerCase().includes("pass"));
+            const { module_id, first_grade, resit_grade, grade_result, resit_result, credit_value } = grade;
+            
 
-        if (passed){
-            totalCredits+=credit_value;
-        }
+            if (processedModules.has(module_id)) return;
+            processedModules.add(module_id);
 
-        let finalGrade = first_grade;
-        if (resit_grade && resit_grade > first_grade){
-            finalGrade = resit_grade;
-        }
+            // verify if module has been passed in either the first attempt or in a resit
+            const passed = (grade_result && grade_result.toLowerCase().includes("pass")) || (resit_result && resit_result.toLowerCase().includes("pass"));
 
-        if (finalGrade !== null && finalGrade !== undefined){
-            totalGrades+=finalGrade;
-            gradeCount++;
-        }
-    });
+            if (passed){
+                totalCredits+=credit_value;
+            }
 
-    const averageGrade = gradeCount > 0 ? (totalGrades / gradeCount) : 0;
+            let finalGrade = first_grade;
 
+            if (resit_grade && resit_grade > first_grade) {
+                if (resit_result && resit_result.toLowerCase() === "pass capped") {
+                    finalGrade = Math.min(resit_grade, 40);
+                } else {
+                    finalGrade = resit_grade;
+                }
+            }
+
+            if (finalGrade !== null && finalGrade !== undefined){
+                totalGrades+=finalGrade;
+                gradeCount++;
+            }
+        })
+
+    const averageGrade = Math.round(gradeCount > 0 ? (totalGrades / gradeCount) : 0);
     return { totalCredits, averageGrade };
 }
 
 // function to check and see if required core modules have been passed
-async function checkCoreModulesPassed(studentID, degree){
+async function checkCoreModulesPassed(studentID, degree, academicLevel, connection){
 
     const [coreModules] = await connection.promise().query(
-        "SELECT module_id FROM progression_core_modules WHERE degree_programme = ?",
-        [degree]
+        "SELECT module_id FROM progression_core_modules WHERE degree_programme = ? AND academic_level = ?",
+        [degree, academicLevel]
     );
 
-    const [studentGrades] = await createConnection.promise().query(
-        "SELECT g.module_id, g.grade_result, g.resit_result FROM grades g WHERE g.student_id = ?",
-        [studentID]
+    if(coreModules.length === 0){
+        return true;
+    }
+
+    const [studentGrades] = await connection.promise().query(
+        "SELECT g.module_id, g.grade_result, g.resit_result FROM grades g JOIN modules m ON g.module_id = m.module_id WHERE g.student_id = ? AND m.academic_level = ?",
+        [studentID, academicLevel]
     );
 
     const passedModules = new Set();
@@ -56,13 +73,14 @@ async function checkCoreModulesPassed(studentID, degree){
         }
     });
 
+    console.log("Checking core modules for:", studentID, degree, academicLevel);
+    console.log("Modules passed:", passedModules);
+    console.log("Required core modules:", coreModules.map(c => c.module_id));
+
     // loop to check if all required core modules were passsed
-    for(const core of coreModules){
-        if (!passedModules.has(core.module_id)){
-            return false;
-        }
-    }
-    return true; // if all core modules passed
+    return coreModules.some(core => passedModules.has(core.module_id));
+
+    
 }
 
 function classifyModuleResult(first_grade, resit_grade, grade_result, resit_result){
@@ -81,20 +99,13 @@ function classifyModuleResult(first_grade, resit_grade, grade_result, resit_resu
     }
 }
 
-function applyRules(totalCredits, averageGrade, coreModulesPassed){
-    if (totalCredits >= 100 && averageGrade >= 40 && coreModulesPassed){
-        return "Progress";
-    } else if (totalCredits >= 80){
-        return "Resit or repeat Year";
-    } else {
-        "Withdraw";
-    }
-}
+
 
 module.exports = {
     calculateAverageGradeAndCredits,
     checkCoreModulesPassed,
-    classifyModuleResult,
-    applyRules
+    classifyModuleResult
+    
+    
 
 };
