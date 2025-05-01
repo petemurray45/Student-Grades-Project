@@ -16,6 +16,7 @@ const messagesRoute = require("./routes/admin/messaging.js");
 const gradesRoute = require("./routes/admin/grades.js");
 const searchRoute = require("./routes/admin/search.js");
 const progressionRoute = require("./routes/admin/progression.js");
+const statisticsRoute = require("./routes/admin/statistics.js");
 
 //student routes
 const studentMessages = require("./routes/student/messaging.js");
@@ -34,6 +35,7 @@ app.use("/", gradesRoute);
 app.use("/", searchRoute);
 app.use("/", studentMessages);
 app.use("/", progressionRoute);
+app.use("/", statisticsRoute);
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));

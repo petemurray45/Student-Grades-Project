@@ -245,6 +245,7 @@ body {
     margin-left: 6vw;
     transition: margin-left 0.3s ease, width 0.3s ease;
     padding: 5%;
+    
 }
 
 .grid-container {

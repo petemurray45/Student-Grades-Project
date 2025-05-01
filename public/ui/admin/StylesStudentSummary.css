@@ -1,0 +1,44 @@
+.module-boxS {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+}
+
+.title-boxS{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    
+}
+
+.table-boxS {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 5rem;
+    
+}
+
+.containerS {
+    width: 100%;
+    min-height: 40%;
+    max-height: 100%;
+    background-color: #33cbaf;
+    border-radius: 1.5%;
+}
+
+#studentSummaryContainer table,
+#studentSummaryContainer th,
+#studentSummaryContainer td,
+#studentModulesContainer table,
+#studentModulesContainer th,
+#studentModulesContainer td {
+  color: black;
+}
+
+
+
+
+

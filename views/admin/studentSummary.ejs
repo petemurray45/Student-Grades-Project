@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./ui/admin/stylesStudentSummary.css">
+    <link rel="stylesheet" href="./ui/admin/stylesSendMessage.css">
+    <link rel="stylesheet" href="./ui/admin/stylesModules.css">
+    
+    <title>Student Summary</title>
+</head>
+<body>
+
+    <%-include("../partials/sidebar")%>
+
+    <div class="grid-box">
+        <div class="containerS">
+            <div class="module-boxS">
+                <div class="title-boxS">
+                    <h1 class="title">
+                        Individual Student Summary
+                    </h1>
+
+                    <div class="searchBox">
+                        <div class="dropdown" id="studentDropdown">
+                             <div class="control">
+                                 <input class="input" type="text" id="studentSearch" placeholder="Search for students...." oninput="filterDropdown()">
+                             </div>
+     
+                             <div class="dropdown-menu" role="menu">
+                                 <div class="dropdown-content" id="studentList">
+                                     <% students.forEach(student => { %>
+                                         <a class="dropdown-item" onclick="selectStudent('<%= student.sID %>', '<%= student.name %>')">
+                                             <%= student.name %> (<%= student.sID %>)
+                                         </a>
+                                    <% }) %>
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-boxS">
+                    <div id="studentSummaryContainer"></div>
+                    <div id="studentModulesContainer"></div>
+                </div>
+
+                
+
+                
+
+            </div>
+        </div>
+    </div>
+
+    <script src="/statistics.js"></script>
+    
+</body>
+</html>
