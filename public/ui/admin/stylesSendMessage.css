@@ -41,10 +41,7 @@
     align-items: center;
 }
 
-.container {
-    height: 65vh;
-    
-}
+
 
 textarea.textarea {
     height: 25vh;
@@ -58,9 +55,8 @@ textarea::placeholder {
 }
 
 .module-box {
-    max-height: 600px;
-    position: relative;
     
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

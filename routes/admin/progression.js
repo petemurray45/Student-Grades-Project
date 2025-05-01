@@ -170,6 +170,22 @@ router.get("/rules", async (req, res) => {
     res.redirect("/admin/rules");
 });
 
+router.post('/update-decision', (req, res) => {
+    const { student_id, academic_year, decision } = req.body;
+  
+    connection.query(
+      `UPDATE progression_results SET decision = ? WHERE student_id = ? AND academic_year = ?`,
+      [decision, student_id, academic_year],
+      (err) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ success: false });
+        }
+        res.json({ success: true });
+      }
+    );
+});
+
 router.get("/progression", (req, res) => {
     res.render("admin/progression")
 })

@@ -46,7 +46,16 @@
                                     <td><%= result.total_credits %></td>
                                     <td><%= result.average_grade %></td>
                                     <td><%= result.core_modules_passed ? "YES" : "NO" %></td>
-                                    <td><%= result.decision %></td>
+                                    <td>
+                                       <div class="select">
+                                            <select class="decision-select select" data-student-id="<%= result.student_id %>" data-academic-year="<%= result.academic_year %>">
+                                                <option value="Progress" <%= result.decision === 'Progress' ? 'selected' : '' %>>Progress</option>
+                                                <option value="Repeat Year (Full Time)" <%= result.decision === 'Repeat Year (Full Time)' ? 'selected' : '' %>>Repeat Year (Full Time)</option>
+                                                <option value="Resit Offered" <%= result.decision === 'Resit Offered' ? 'selected' : '' %>>Resit Offered</option>
+                                                <option value="Withdrawn" <%= result.decision === 'Withdrawn' ? 'selected' : '' %>>Withdrawn</option>
+                                            </select>
+                                       </div>
+                                    </td>
                                 </tr>
                             <% }) %>
                         </tbody>
@@ -58,6 +67,9 @@
             </div>
         </div>
     </div>
+
+    <script src="/rules.js"></script>
+    
     
 </body>
 </html>
