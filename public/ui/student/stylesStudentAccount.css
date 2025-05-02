@@ -41,4 +41,9 @@
 
 .card-content strong {
     color: black !important;
-  }
+}
+
+.picture-box {
+    display: flex;
+    flex-direction: row;
+}

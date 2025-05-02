@@ -375,5 +375,29 @@ form.box {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
+  color: black;
+}
+
+.container1 {
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.module-box {
+  gap: 3rem;
+}
+
+.table.is-full-width,
+.table.is-full-width th,
+.table.is-full-width td {
+  color: black !important;
+}
+
+.large-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 

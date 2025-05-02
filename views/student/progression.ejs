@@ -4,17 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/ui/student/stylesStudentProgression.css">
+    <link rel="stylesheet" href="/ui/admin/stylesStudentSummary.css">
+    <link rel="stylesheet" href="/ui/admin/stylesStudentInbox.css">
+    
+
     <title>Student Progression</title>
 </head>
 <body>
 
     <%-include("../partials/sidebar")%>
-    <div class="grid-box">
-        <div class="container">
+    <div class="grid-box large-container">
+        <div class="container1">
             <div class="module-box">
 
                 <div class="module-grades-box">
-                    <div class="title-box">Current Student Statistics</div>
+                    <div class="title-box">
+                        <h1 class="title">Current Student Statistics</h1>
+                    </div>
                     <table class="table is-full-width">
                         <thead>
                             <th>Module Title</th>

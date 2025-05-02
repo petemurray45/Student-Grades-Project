@@ -7,11 +7,11 @@ router.use(requireAdminLogin); // applies to all following routes
 
 
 router.get("/", (req, res)=> {
-    let readSql = `SELECT module_id, subj_code, module_title, credit_value, core_module FROM modules ORDER BY module_title ASC`;
+    let readSql = `SELECT module_id, subj_code, module_title, credit_value, core_module FROM modules ORDER BY TRIM(module_title) ASC`;
 
     connection.query(readSql, (err, rows)=>{
         if (err) throw err;
-        res.render("/admin/modules", {modules: rows})
+        res.render("admin/modules", {modules: rows})
 
     });
         

@@ -9,6 +9,14 @@ app.use(session({
     saveUninitialized: true
 }));
 
+// permits user session data to be used in all views (mainly for sidebar)
+app.use((req, res, next) => {
+    if (req.session.user) {
+      res.locals.user = req.session.user; 
+    }
+    next();
+  });
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -23,11 +31,14 @@ const gradesRoute = require("./routes/admin/grades.js");
 const searchRoute = require("./routes/admin/search.js");
 const progressionRoute = require("./routes/admin/progression.js");
 const statisticsRoute = require("./routes/admin/statistics.js");
+const landingRoute = require("./routes/admin/landing.js");
+const loginPage = require("./routes/login.js");
 
 //student routes
 const studentMessages = require("./routes/student/messaging.js");
 const studentProgression = require("./routes/student/progression.js");
 const studentAccount = require("./routes/student/account.js");
+const studentLanding = require("./routes/student/landing.js");
 const { log } = require("console");
 
 
@@ -40,11 +51,14 @@ app.use("/admin/modules", modulesRoute);
 app.use("/admin/messaging", messagesRoute);
 app.use("/admin/grades", gradesRoute);
 app.use("/admin/search", searchRoute);
+app.use("/admin/landing", landingRoute);
 app.use("/student/messaging", studentMessages);
 app.use("/student/progression", studentProgression);
 app.use("/student/account", studentAccount);
+app.use("/student/studentLanding", studentLanding);
 app.use("/admin/progression", progressionRoute);
 app.use("/admin/statistics", statisticsRoute);
+app.use("/login", loginPage);
 
 
 

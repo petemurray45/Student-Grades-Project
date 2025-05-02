@@ -18,22 +18,34 @@
         <div class="container1">
             <div class="module-box1">
 
-                <form action="/student/account/upload" method="POST" enctype="multipart/form-data">
-                    <div class="file has-name is-centered mb-4">
-                      <label class="file-label">
-                        <input class="file-input" type="file" name="profileImage" accept="image/*" required>
-                        <span class="file-cta">
-                          <span class="file-icon">
-                            <i class="fas fa-upload"></i>
-                          </span>
-                          <span class="file-label">Choose a photo…</span>
-                        </span>
-                      </label>
+                <div clas="picture-box">
+                    <div class="has-text-centered mb-4">
+                        <figure class="image is-128x128 is-inline-block">
+                          <img class="is-rounded" 
+                               src="<%= student.profile_image || '/imgs/account.png' %>" 
+                               alt="Profile Picture">
+                        </figure>
                     </div>
-                    <div class="has-text-centered">
-                      <button class="button is-link is-small">Upload Photo</button>
-                    </div>
-                </form>
+    
+                    <form action="/student/account/upload" method="POST" enctype="multipart/form-data">
+                        <div class="file has-name is-centered mb-4">
+                          <label class="file-label">
+                            <input class="file-input" type="file" name="profileImage" accept="image/*" required>
+                            <span class="file-cta">
+                              <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                              </span>
+                              <span class="file-label">Choose a photo…</span>
+                            </span>
+                          </label>
+                        </div>
+                        <div class="has-text-centered">
+                          <button class="button is-link is-small">Upload Photo</button>
+                        </div>
+                    </form>
+                </div>
+
+                
 
                 <section class="section">
                     

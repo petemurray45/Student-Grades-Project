@@ -20,7 +20,7 @@
             </li>
         </a>
 
-        <a href="/student/studentMessaging">
+        <a href="/student/messaging">
             <li>
                 <img src="/imgs/chat.png"><span class="text">Messages</span>
             </li>
@@ -43,10 +43,9 @@
     </ul>
     <div class="user-account">
         <div class="user-profile">
-            <img src>
+            <img src="<%=user.profile_image || '/imgs/account.png' %>" alt="profile-picture">
             <div class="user-detail">
-                <h3>Peter Murray</h3>
-                <span>Web developer</span>
+                <h3><%=user.first_name %> <%= user.last_name %></h3>
             </div>
         </div>
     </div>

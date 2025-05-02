@@ -350,3 +350,15 @@ h2 {
 p {
     font-weight: 350;
 }
+
+.logout-form {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.logout-form button {
+  background-color: #e74c3c;
+  color: white;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+}

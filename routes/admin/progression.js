@@ -171,7 +171,7 @@ router.post("/rules/update", async (req, res) => {
       WHERE id = ?
     `, [degree_programme, academic_level, min_credits, min_average_grade, all_modules_required, id]);
   
-    res.redirect("/admin/progression/rules");
+    res.redirect("admin/progression/rules");
 });
 
 router.post('/update-decision', (req, res) => {

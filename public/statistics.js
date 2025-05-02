@@ -36,7 +36,7 @@ window.selectStudent = function(studentId, studentName) {
     studentInput.value = studentName;
     dropdown.classList.remove("is-active");
 
-    fetch(`/studentSummary/${studentId}`)
+    fetch(`/admin/statistics/studentSummary/${studentId}`)
         .then(res => res.json())
         .then(data => {
             if (!data.success) throw new Error("No data returned");
