@@ -31,13 +31,13 @@ body {
     background: #33cbaf;
     padding: 25px 20px;
     transition: all 0.3s ease;
-  }
+}
 
 .sidebar img {
     width: 4vw;
     height: 4vh;
     transition: all 0.3s ease-in-out; 
-  }
+}
 
 .sidebar li {
     display: flex;
@@ -376,4 +376,24 @@ form.box {
   align-items: center;
   padding: 1rem;
 }
+
+.containerAdd {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  
+}
+
+.module-boxAdd {
+  height: fit-content;
+  width: 100%;
+}
+
+.buttonBox {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
 

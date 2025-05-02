@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/ui/student/stylesStudentAccount.css">
+    <link rel="stylesheet" href="/ui/admin/stylesModules.css">
+    <link rel="stylesheet" href="/ui/student/stylesStudentInbox.css">
+    
+    
+    <title>Account</title>
+</head>
+<body>
+
+    <%-include("../partials/sidebar")%>
+
+    <div class="grid-box large-container">
+        <div class="container1">
+            <div class="module-box1">
+
+                <form action="/student/account/upload" method="POST" enctype="multipart/form-data">
+                    <div class="file has-name is-centered mb-4">
+                      <label class="file-label">
+                        <input class="file-input" type="file" name="profileImage" accept="image/*" required>
+                        <span class="file-cta">
+                          <span class="file-icon">
+                            <i class="fas fa-upload"></i>
+                          </span>
+                          <span class="file-label">Choose a photo…</span>
+                        </span>
+                      </label>
+                    </div>
+                    <div class="has-text-centered">
+                      <button class="button is-link is-small">Upload Photo</button>
+                    </div>
+                </form>
+
+                <section class="section">
+                    
+                      <h1 class="title is-3">My Account</h1>
+                  
+                      <div class="card details">
+                        <div class="card-content">
+                          <div class="content">
+                                <div class="columns is-multiline">
+                    
+                                    <div class="column is-half">
+                                        <p><strong>Name:</strong> <%= student.name %></p>
+                                    </div>
+                        
+                                    <div class="column is-half">
+                                        <p><strong>Student ID:</strong> <%= student.student_id %></p>
+                                    </div>
+                        
+                                    <div class="column is-half">
+                                        <p><strong>Pathway:</strong> <%= student.pathway %></p>
+                                    </div>
+                        
+                                    <div class="column is-half">
+                                        <p><strong>Academic Level:</strong> <%= student.academic_level %></p>
+                                    </div>
+                        
+                                    <div class="column is-full">
+                                        <p><strong>Email:</strong> <%= student.email %></p>
+                                    </div>
+                    
+                                </div>
+                          </div>
+                        </div>
+                      </div>
+                    
+                  </section>
+
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

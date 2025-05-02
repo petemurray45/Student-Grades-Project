@@ -1,6 +1,4 @@
 
-
-
 // function to calculate the average grade for the student
 function calculateAverageGradeAndCredits(grades, academicLevel){
 
@@ -22,45 +20,44 @@ function calculateAverageGradeAndCredits(grades, academicLevel){
     })
 
     groupedModules.forEach(attempts => {
-        //picks the best attempt at the module
-        let bestAttempt = null;
-        let bestGrade = -1;
+        for (const grade of attempts) {
+            const { first_grade, resit_grade, grade_result, resit_result, credit_value } = grade;
 
-        attempts.forEach(grade => {
-            const {first_grade, resit_grade, grade_result, resit_result, credit_value} = grade;
+            const fg = Number(first_grade);
+            const rg = Number(resit_grade);
+            const gradeRes = grade_result?.toLowerCase();
+            const resitRes = resit_result?.toLowerCase();
+            const credit = Number(credit_value);
 
             let passed = false;
-            let gradeValue = Number(first_grade);
-            
-            const parsedResit = Number(resit_grade);
-            if (!isNaN(resit_grade) && resit_grade > first_grade) {
-                if (resit_result && resit_result.toLowerCase() === "pass capped") {
-                    gradeValue = Math.min(parsedResit, 40);
+            let gradeValue = fg;
+
+            // Check resit first (if it was taken and is better)
+            if (!isNaN(rg) && rg > fg) {
+                if (resitRes === "pass capped") {
+                    gradeValue = Math.min(rg, 40);
                     passed = true;
-                } else if (resit_result && resit_result.toLowerCase().includes("pass")) {
-                    gradeValue = parsedResit;
+                } else if (resitRes?.includes("pass")) {
+                    gradeValue = rg;
                     passed = true;
                 }
-            } else if (grade_result && ['pass', 'pass capped'].includes(grade_result.toLowerCase())) {
+            } else if (gradeRes && ['pass', 'pass capped'].includes(gradeRes)) {
                 passed = true;
-            } else if (
-                grade_result && grade_result.toLowerCase() === 'excused' &&
-                (!resit_result || resit_result.toLowerCase() === 'excused')
+            }
+
+            if (
+                gradeRes === 'excused' &&
+                (!resitRes || resitRes === 'excused')
             ) {
-                passed = false; // excused shouldn't count as a pass or a fail
+                passed = false; // don't count excused modules
             }
 
-            const credit = Number(credit_value);
-            if (passed && gradeValue > bestGrade && !isNaN(credit)){
-                bestGrade = gradeValue;
-                bestAttempt = {grade: gradeValue, credit_value: credit};
+            if (passed && !isNaN(credit)) {
+                totalCredits += credit;
+                totalGrades += gradeValue;
+                gradeCount++;
+                break; // ✅ Stop after first valid pass
             }
-        })
-
-        if (bestAttempt){
-            totalCredits += bestAttempt.credit_value;
-            totalGrades += bestAttempt.grade;
-            gradeCount++;
         }
     });
     
@@ -100,7 +97,7 @@ async function checkCoreModulesPassed(studentID, degree, academicLevel, connecti
     console.log("Required core modules:", coreModules.map(c => c.module_id));
 
     // loop to check if all required core modules were passsed
-    return coreModules.some(core => passedModules.has(core.module_id));
+    return coreModules.every(core => passedModules.has(core.module_id));
 
     
 }

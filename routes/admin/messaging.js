@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const connection = require("../../connection.js")
+const { requireAdminLogin } = require('../../middleware/auth');
+router.use(requireAdminLogin); // applies to all following routes
 
 
-router.get("/messaging", (req, res)=> {
+router.get("/", (req, res)=> {
     res.render("admin/messaging");
 })
 
@@ -48,7 +50,7 @@ router.post("/send", (req, res) => {
 
     connection.query(sql, [values], (err, result)=> {
         if (err) throw err;
-        res.redirect("/messaging")
+        res.redirect("admin/messaging")
     })
    
 })

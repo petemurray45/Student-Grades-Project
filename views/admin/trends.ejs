@@ -3,18 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./ui/admin/stylesModules.css">
-    <link rel="stylesheet" href="./ui/admin/stylesMessaging.css">
+    <link rel="stylesheet" href="/ui/admin/stylesStatistics.css">
+    <link rel="stylesheet" href="/ui/admin/stylesModules.css">
+    <link rel="stylesheet" href="/ui/admin/stylesMessaging.css">
     <title>Trends</title>
 </head>
 <body>
 
-    <%-include("../partials/sidebar")%>
+    <%-include("../partials/sidebarAdmin")%>
 
     <div class="grid-box">
         <div class="container">
             <div class="module-box">
+                <div class="title-box1">
+                    <h1 class="title">
+                        Progression Trends
+                    </h1>
+                </div>
+                <div id="pathwayContainer">
+                    <table class="table is-full-width">
+                        <thead>
+                            <th>Pathway</th>
+                            <th>Total Students</th>
+                            <th>Progressed</th>
+                            <th>Repeating Year</th>
+                            <th>Withdrawn</th>
+                            <th>Progression Rate (%)</th>
+                        </thead>
+
+                        <tbody class="modulesTableBody">
+                            <% pathwayStats.forEach(stat => { %>
+                                <tr>
+                                    <td><%=stat.pathway %></td>
+                                    <td><%=stat.total_students%></td>
+                                    <td><%=stat.progressed%></td>
+                                    <td><%=stat.repeating%></td>
+                                    <td><%=stat.withdrawn%></td>
+                                    <td><%=stat.progression_rate%></td> 
+                                </tr>
+                            <% }) %>
+                                
+                        </tbody>
+                    </table>
+
+                </div>
                 
+
+                <div id="moduleContainer">
+                    <table class="table is-full-width">
+                        <thead>
+                            <th>Module Title</th>
+                            <th>Average Grade</th>
+                            <th>Highest Grade</th>
+                            <th>Lowest Grade</th>
+                            <th>Resitted</th>
+                            <th>Fail (%)</th>
+                            <th>Pass (%)</th>
+                        </thead>
+
+                        <tbody>
+                            <% moduleStats.forEach(stat => { %>
+
+                                <tr>
+                                    <td><%= stat.module_title %></td>
+                                    <td><%= stat.average_grade %></td>
+                                    <td><%= stat.highest_grade %></td>
+                                    <td><%= stat.lowest_grade %></td>
+                                    <td><%= stat.resits %></td>
+                                    <td><%= stat.fail_percent %>%</td>
+                                    <td><%= stat.pass_percent %>%</td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+
+
+                </div>
                 
             </div>
         </div>

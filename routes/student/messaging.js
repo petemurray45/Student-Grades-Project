@@ -1,8 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const connection = require("../../connection.js")
+const { requireStudentLogin } = require("../../middleware/auth");
+router.use(requireStudentLogin); 
 
-router.get("/studentMessaging", (req, res) => {
+
+router.get("/",  (req, res) => {
     res.render("student/studentMessaging");
 })
 
@@ -35,7 +38,7 @@ router.get("/studentInbox", (req, res)=> {
     })
 })
 
-router.post("/studentSend", (req, res) => {
+router.post("/studentSend",(req, res) => {
     const {recipient_ids, message} = req.body;
     const sender = req.session.user;
     const senderID = sender.role === "student" ? sender.student_id : sender.username;

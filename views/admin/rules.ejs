@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./ui/admin/stylesProgression.css">
-    <link rel="stylesheet" href="./ui/admin/stylesModules.css">
-    <link rel="stylesheet" href="./ui/admin/stylesMessaging.css">
+    <link rel="stylesheet" href="/ui/admin/stylesProgression.css">
+    <link rel="stylesheet" href="/ui/admin/stylesModules.css">
+    <link rel="stylesheet" href="/ui/admin/stylesMessaging.css">
     
     <title>Edit Progression Rules</title>
 </head>
 <body>
-    <%- include ("../partials/sidebar") %>
+    <%- include ("../partials/sidebarAdmin") %>
 
     <div class="grid-box">
         <div class="container1">
@@ -45,7 +45,7 @@
                       
                             <tr id="edit-form-row-<%= index %>" style="display:none;">
                               <td colspan="6">
-                                <form action="/rules/update" method="POST">
+                                <form action="/admin/progression/rules/update" method="POST">
                                   <input type="hidden" name="id" value="<%= rule.id %>">
                       
                                   <div class="field">

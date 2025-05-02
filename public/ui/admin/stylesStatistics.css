@@ -1,0 +1,32 @@
+#pathwayContainer {
+    
+    margin-bottom: 2rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    
+}
+
+#moduleContainer {
+    height: 80%;
+    margin: 2rem;
+}
+
+.title-box1 {
+    height: 20%;
+    width: 100%;
+}
+
+.module-box {
+    padding-top: 3rem !important;
+}
+
+table.is-full-width,
+table.is-full-width thead,
+table.is-full-width th,
+table.is-full-width td {
+  color: black !important;
+}
+
+
+
+

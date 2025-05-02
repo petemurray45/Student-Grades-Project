@@ -67,8 +67,6 @@ window.selectStudent = function(studentId, studentName) {
                 </table>
             `;
             document.getElementById("studentSummaryContainer").innerHTML = summaryHtml;
-
-            
             let modulesHtml = `
                 <table class="table is-fullwidth">
                     <thead>

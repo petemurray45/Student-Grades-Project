@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./ui/admin/stylesModules.css">
+    <link rel="stylesheet" href="/ui/admin/stylesModules.css">
     
     <title>Modules</title>
 </head>
 <body>
 
-    <%-include("../partials/sidebar")%>
+    <%-include("../partials/sidebarAdmin")%>
 
     <div class="grid-box">
         <div class="container">
@@ -27,7 +27,7 @@
                     <tbody id="modulesTableBody">
 
                       <% modules.forEach((module, index) => { %>
-                        <tr>
+                        <tr id="module-row-<%= index %>">
                           <td class="subjCodeCell"><%= module.subj_code %></td>
                           <td class="subjCodeCell"><%= module.module_title %></td>
                           <td class="subjCodeCell"><%= module.credit_value %></td>
@@ -39,7 +39,7 @@
 
                         <tr id="edit-form-row-<%= index %>" style="display:none;">
                           <td colspan="5">
-                            <form class="box edit-module-form" method="POST" data-index="<% index %>">
+                            <form class="box edit-module-form" method="POST" data-index="<%= index %>">
                               <input type="hidden" name="module_id" value="<%= module.module_id %>">
 
                               <div class="field">

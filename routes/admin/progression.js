@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const connection = require("../../connection.js");
 const { calculateAverageGradeAndCredits, checkCoreModulesPassed, classifyModuleResult } = require("../../public/helpers/progressionCalculations.js");
+const { requireAdminLogin } = require('../../middleware/auth');
+router.use(requireAdminLogin); // applies to all following routes
+
 
 async function getProgressionRule(degreeProgram, academic_level, db) {
     const [rules] = await db.query(
@@ -11,7 +14,11 @@ async function getProgressionRule(degreeProgram, academic_level, db) {
     return rules[0];
 }
 
-router.get("/studentProgression", async (req, res) => {
+router.get("/", async (req, res) => {
+    res.render("admin/progression");
+})
+
+router.get("/studentProgression", async (req, res)=> {
     try {
         const [results] = await connection.promise().query(
             `SELECT pr.*, 
@@ -55,9 +62,6 @@ function decideResult(grades, passedCore, totalCredits, rule) {
 
 router.get("/calculate", async (req, res)=> {
     try {
-
-        
-        
         const [students] = await connection.promise().query(
             "SELECT DISTINCT s.sID AS student_id FROM students s"
         );
@@ -156,9 +160,9 @@ router.get("/calculate", async (req, res)=> {
 router.get("/rules", async (req, res) => {
     const [rules] = await connection.promise().query("SELECT * FROM progression_rules");
     res.render("admin/rules", { progressionRules: rules });
-  });
-  
-  router.post("/rules/update", async (req, res) => {
+});
+
+router.post("/rules/update", async (req, res) => {
     const { id, degree_programme, academic_level, min_credits, min_average_grade, all_modules_required } = req.body;
   
     await connection.promise().query(`
@@ -167,35 +171,28 @@ router.get("/rules", async (req, res) => {
       WHERE id = ?
     `, [degree_programme, academic_level, min_credits, min_average_grade, all_modules_required, id]);
   
-    res.redirect("/admin/rules");
+    res.redirect("/admin/progression/rules");
 });
 
 router.post('/update-decision', (req, res) => {
     const { student_id, academic_year, decision } = req.body;
-  
-    connection.query(
-      `UPDATE progression_results SET decision = ? WHERE student_id = ? AND academic_year = ?`,
-      [decision, student_id, academic_year],
-      (err) => {
+
+    const updateSql = `
+    UPDATE progression_results
+    SET decision = ?
+    WHERE student_id = ? AND academic_year = ?
+    `;
+    connection.query(updateSql, [decision, student_id, academic_year], (err, result) => {
         if (err) {
-          console.error(err);
-          return res.status(500).json({ success: false });
+          console.error("Update Error:", err);
+          return res.status(500).json({ error: "Server error" });
         }
         res.json({ success: true });
-      }
-    );
+      });
 });
 
-router.get("/progression", (req, res) => {
-    res.render("admin/progression")
-})
 
-router.get("/rules", (req, res) => {
-    res.render("admin/rules");
-})
 
-router.get("/studentProgression", (req, res) => {
-    res.render("admin/studentProgression")
-});
+
 
 module.exports = router;

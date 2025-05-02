@@ -42,7 +42,7 @@ searchInput.addEventListener('input', ()=> {
 function selectModule(moduleId, moduleTitle) {
     document.getElementById('moduleSearch').value = moduleTitle;
   
-    fetch(`/grades/module/${moduleId}`)
+    fetch(`/admin/grades/module/${moduleId}`)
       .then(response => response.json())
       .then(data => {
         const gradesTableBody = document.getElementById('gradesTableBody');
@@ -149,7 +149,7 @@ document.addEventListener('submit', function(e) {
 
       console.log("Form Data:", data); 
   
-      fetch('/grades/update', {
+      fetch('/admin/grades/update', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -196,7 +196,7 @@ document.getElementById("csvUploadForm").addEventListener("submit", function(e){
 
   const formData = new FormData(this);
 
-  fetch("/grades/upload", {
+  fetch("/admin/grades/upload", {
     method: "POST",
     body: formData
   })

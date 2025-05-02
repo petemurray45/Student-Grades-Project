@@ -1,21 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Josefin+Sans:wght@700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 
 @import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
 
 
 
-
-
 body {
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    background-image: url("/imgs/background.jpg");
-    height: 100vh;
-    transition: all 0.3s ease-in-out;
-    
+    background-image: url("/imgs//background.jpg");
 }
-
 
 * {
     margin: 0;
@@ -26,7 +19,7 @@ body {
   
   
   
-  .sidebar {
+.sidebar {
     position: fixed;
     top: 0;
     left: 0;
@@ -40,13 +33,13 @@ body {
     transition: all 0.3s ease;
   }
 
-  .sidebar img {
+.sidebar img {
     width: 4vw;
     height: 4vh;
     transition: all 0.3s ease-in-out; 
   }
 
-  .sidebar li {
+.sidebar li {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -56,30 +49,32 @@ body {
     margin-bottom: 12%
   }
 
-  .sidebar:hover img {
+.sidebar:hover img {
     width: 30%;
   } 
 
-  .sidebar:hover li {
+.sidebar:hover li {
     margin-bottom: 3%;
   }
   
-  .sidebar:hover {
+.sidebar:hover {
     width: 330px;
   }
 
-  .sidebar:hover img {
+.sidebar:hover img {
     width: 50px;
     height: auto;
   }
 
-  .sidebar:hover ~ .fixed-grid {
+.sidebar:hover ~ .grid-box {
   
-    width: calc(100vw - 330px);
+    width: calc(100vw - 300px);
+    margin-left: 330px;
+    
   }
   
-  .sidebar .sidebar-header, 
-  .sidebar-links .user-account{
+.sidebar .sidebar-header, 
+.sidebar-links .user-account{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -88,13 +83,13 @@ body {
     
   }
   
-  .sidebar .sidebar-header img {
+.sidebar .sidebar-header img {
     width: 4vw;
     height: 6vh;
     transition: width 0.3s ease-in-out;
   }
   
-  .sidebar .sidebar-header h2 {
+.sidebar .sidebar-header h2 {
     color: black;
     font-size: 1.25rem;
     font-weight: 600;
@@ -106,24 +101,28 @@ body {
     
   }
 
-  .sidebar:hover .sidebar-header h2 {
+.sidebar:hover .sidebar-header h2 {
     opacity: 1;
   }
   
-  .sidebar-links h4 {
+.sidebar-links h4 {
     color: #fff;
     font-weight: 500;
     white-space: nowrap;
     margin: 10px 0;
     position: relative;
-  }
+}
 
-  .title {
+.title-box {
+  margin-bottom: 2rem;
+}
+
+.title {
     font-size: large;
     color: black;
   }
 
-  .sidebar .text {
+.sidebar .text {
     opacity: 0;
     white-space: nowrap;
     overflow: hidden;
@@ -131,37 +130,37 @@ body {
     transition: opacity 0.3s ease, width 0.3s ease;
   }
 
-  .sidebar:hover .text {
+.sidebar:hover .text {
     opacity: 1;
     width: auto;
     color: black;
   }
   
-  .sidebar-links h4 {
+.sidebar-links h4 {
     opacity: 0;
     transition: opacity 0.3s ease;
   }
   
-  .sidebar:hover h4 {
+.sidebar:hover h4 {
     opacity: 1;
     color: black;
   }
 
-  .sidebar .user-account {
+.sidebar .user-account {
     opacity: 0;
     transition: opacity 0.3s ease;
   }
 
-  .sidebar:hover .user-account {
+.sidebar:hover .user-account {
     opacity: 1;
   }
   
-  .sidebar:hover .sidebar-links .menu-separator {
+.sidebar:hover .sidebar-links .menu-separator {
     transition-delay: 0s;
     transform: scaleX(0);
   }
   
-  .sidebar-links {
+.sidebar-links {
     list-style: none;
     margin-top: 20px;
     padding: 10px;
@@ -171,7 +170,7 @@ body {
     
   }
   
-  .sidebar-links li  {
+.sidebar-links li  {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -188,7 +187,7 @@ body {
     
   }
 
-  .sidebar-links li:hover {
+.sidebar-links li:hover {
     background-color: #99edde;
     border-radius: 8px;
     width: 100%;
@@ -197,162 +196,184 @@ body {
   
   
   
-  .user-account {
+.user-account {
     margin-top: auto;
     padding: 12px 10px;
     margin-left: -10px;
     
   }
   
-  .user-profile {
+.user-profile {
     display: flex;
     align-items: center;
     color: #161a2d;
   }
   
-  .user-profile img {
+.user-profile img {
     width: 42px;
     border-radius: 50%;
     border: 2px solid #fff;
   }
   
-  .user-profile h3 {
+.user-profile h3 {
     font-size: 1rem;
     font-weight: 600;
   }
   
-  .user-profile span {
+.user-profile span {
     font-size: 0.775rem;
     font-weight: 600;
   }
   
-  .user-detail {
+.user-detail {
     margin-left: 23px;
     white-space: nowrap;
   }
   
-  .sidebar:hover .user-account {
+.sidebar:hover .user-account {
     background: #fff;
     border-radius: 4px;
   }
 
-
   /* grid css */
 
-.fixed-grid {
-    display: grid;
-    width: calc(100vw - 6vw);
-    height: 100vh;
-    padding: 2%;
-    flex-grow: 1;
-    transition: all 0.3s ease-in-out;
-    
-}
-
-.grid {
-    display: grid;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    place-items: center;
-    
-    
-}
-
-.cell {
-    
-    display: flex;
-    margin: 5%;
-    border-radius: 5%;
-    justify-content: center;
-    align-items: center;
-    width: 25vw;
-    height: 40vh;
-    background-color: #f0f0f0;
-    border-radius: 16px;
-    overflow: hidden; 
-    transition: 0.3s; 
-    opacity: 0.7;
-}
-
-.cell:hover {
-    opacity: 1.5;
-}
-
-
-
-.cell-title {
-    font-size: large;
-    color: black;
-}
-
-
-
-.card {
+.grid-box {
     position: relative;
-    width: 100%;
+    flex: 1;
+    width: calc(100% - 6vw);
+    height: 100vh;
+    margin-left: 6vw;
+    transition: margin-left 0.3s ease, width 0.3s ease;
+    padding: 5%;
+    
+}
+
+.grid-container {
     height: 100%;
-    overflow: hidden;
-    border-radius: 16px;
-    transition: transform 0.5s ease;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: minmax(10%, auto);
+    gap: 5%;
+    width: calc(90vw - 6vw);
+    margin: auto;
+}
+
+.grid-item {
     background-color: #FA8072;
-}
-
-.card-content {
-    position: absolute;
-    width: 100%;
-    height: 100%;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    transition: transform 0.5s ease;
-}
-
-.card img {
-    width: 50%;
-    height: auto;
-    transition: transform 0.5s ease;
+    justify-content: center;
+    border-radius: 1.5%;
 
 }
 
-.card-text {
-    position: absolute;
-    bottom: 0;
-    color: black;
-    width: 100%;
-    height: 28%;
-    text-align: center;
-    transform: translateY(100%);
-    transition: transform 0.5s ease;
-    font-size: large;
+.span-two-rows {
+    grid-row: span 2;
 }
 
-.cell-title {
-    font-size: xx-large;
-}
-
-.card:hover .card-content {
-    transform: scale(0.9);
-}
-
-.card:hover .card-text {
-    transform: translateY(0);
-}
-
-h2 {
-    margin-top: 10%;
-    font-weight: 700;
-    font-size: 2rem;
-}
-
-p {
-    font-weight: 350;
-}
-
-.container1 {
+.module-box {
   display: flex;
-  height: 100%;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
+  height: 100%;
+  background-color: #FA8072;
+  border-radius: 1.5%;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.table-box {
+  display: flex;
+  justify-content: center;
+  max-height: 100%;
+  overflow-y: auto;
+  color: black;
+}
+
+.table {
+  background-color: #FA8072;
+  width: 100%;
+  max-height: 100%;
+  
+}
+
+.table-box table td{
+  color: black;
+}
+
+.table-box thead th {
+  color: black;
+}
+
+
+
+
+
+.container {
+  width: 100%;
+  height: 100%;
+  background-color: #FA8072;
+  border-radius: 1.5%;
+}
+
+form.box {
+  background-color: #FA8072;
+  border: solid thin black;
+  color: black;
+  margin-bottom: 2rem;
+}
+
+.button {
+  border: solid black;
+}
+
+.label {
+  color: black;
+}
+
+.input,
+.select select,
+.textarea {
+  color: black;
+  background-color: white; 
+}
+
+
+.dropdown.is-active .dropdown-menu .dropdown-content {
+  background-color: white !important;
+  color: black !important;
+  border-radius: 6px;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1);
+}
+
+.dropdown-item {
+  color: black !important;
+}
+
+.modal-card-body {
+  background-color: #FA8072;
+}
+
+.modal-card-head {
+  background-color: #FA8072;
+  color: black;
+}
+
+.modal-card-foot {
+  background-color: #FA8072;
+  justify-content: space-between;
+}
+
+.modal-card-title {
+  color: black;
+}
+
+.title-box1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
 }
 

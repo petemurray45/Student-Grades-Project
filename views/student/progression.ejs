@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/ui/student/stylesStudentProgression.css">
+    <title>Student Progression</title>
+</head>
+<body>
+
+    <%-include("../partials/sidebar")%>
+    <div class="grid-box">
+        <div class="container">
+            <div class="module-box">
+
+                <div class="module-grades-box">
+                    <div class="title-box">Current Student Statistics</div>
+                    <table class="table is-full-width">
+                        <thead>
+                            <th>Module Title</th>
+                            <th>Credit Value</th>
+                            <th>Pathway</th>
+                            <th>Grade</th>
+                            <th>Resit Grade</th>
+                            <th>Grade Result</th>
+                        </thead>
+
+                        <tbody>
+                            <% modules.forEach(module => { %>
+                                <tr>
+                                    <td><%=module.title%></td>
+                                    <td><%=module.creditValue%></td>
+                                    <td><%=module.pathway%></td>
+                                    <td><%=module.grade%></td>
+                                    <td><%=module.resit_grade !== null ? module.resit_grade : "N/A"%></td>
+                                    <td><%=module.result%></td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="progression-stats-box">
+                    <table class="table is-full-width">
+                        <thead>
+                            <th>Minimum Credits Required</th>
+                            <th>Credits Achieved</th>
+                            <th>Minimum Average Grade</th>
+                            <th>Average Grade</th>
+                            <th>Core Modules Passed</th>
+                            <th>Progression Decision</th>
+                        </thead>
+
+                        <tbody>
+                            <% studentDetails.forEach(student => { %>
+                            
+                                <tr>
+                                    <td><%= student.credits%></td>
+                                    <td><%= student.creditsAchieved%></td>
+                                    <td><%=student.minimum_average%></td>
+                                    <td><%= student.average%></td>
+                                    <td><%= student.corePassed%></td>
+                                    <td><%= student.decision%></td>
+
+                                </tr>
+
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

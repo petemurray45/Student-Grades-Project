@@ -9,6 +9,12 @@ app.use(session({
     saveUninitialized: true
 }));
 
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'assets')));
+
 //admin routes
 const loginRoute = require("./routes/login.js");
 const modulesRoute = require("./routes/admin/modules");
@@ -20,25 +26,28 @@ const statisticsRoute = require("./routes/admin/statistics.js");
 
 //student routes
 const studentMessages = require("./routes/student/messaging.js");
+const studentProgression = require("./routes/student/progression.js");
+const studentAccount = require("./routes/student/account.js");
 const { log } = require("console");
 
 
 
 app.use(express.urlencoded({ extended: true}));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'assets')));
 app.use("/", loginRoute);
-app.use("/", modulesRoute);
-app.use("/", messagesRoute);
-app.use("/", gradesRoute);
-app.use("/", searchRoute);
-app.use("/", studentMessages);
-app.use("/", progressionRoute);
-app.use("/", statisticsRoute);
+app.use("/admin/modules", modulesRoute);
+app.use("/admin/messaging", messagesRoute);
+app.use("/admin/grades", gradesRoute);
+app.use("/admin/search", searchRoute);
+app.use("/student/messaging", studentMessages);
+app.use("/student/progression", studentProgression);
+app.use("/student/account", studentAccount);
+app.use("/admin/progression", progressionRoute);
+app.use("/admin/statistics", statisticsRoute);
 
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+
+
 
 
 app.listen(3000, (err)=>{

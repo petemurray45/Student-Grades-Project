@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./ui/admin/stylesModules.css">
-    <link rel="stylesheet" href="./ui/admin/stylesMessaging.css">
+    <link rel="stylesheet" href="/ui/admin/stylesModules.css">
+    <link rel="stylesheet" href="/ui/admin/stylesMessaging.css">
     <title>Statistics</title>
 </head>
 <body>
 
-    <%-include("../partials/sidebar")%>
+    <%-include("../partials/sidebarAdmin")%>
 
     <div class="grid-box">
 
 
         <div class="card">
             <div class="card-content">
-                <a class="card-content" href="/studentSummary">
+                <a class="card-content" href="/admin/statistics/studentSummary">
                     <img src="/imgs/student-grades.png" alt="Description of image" >
                     <div class="card-text">
                         <h2 class="cell-title">Individual Student Summary</h2>
@@ -28,7 +28,7 @@
 
         <div class="card">
             <div class="card-content">
-                <a class="card-content" href="/trends">
+                <a class="card-content" href="/admin/statistics/trends">
                     <img src="/imgs/trend.png" alt="Description of image">
                     <div class="card-text">
                         <h2 class="cell-title">Trends</h2>

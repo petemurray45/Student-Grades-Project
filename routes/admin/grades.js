@@ -7,8 +7,10 @@ const fs = require("fs");
 const { resolve } = require("path");
 const { rejects } = require("assert");
 const upload = multer({dest:"uploads/"});
+const { requireAdminLogin } = require('../../middleware/auth');
+router.use(requireAdminLogin); // applies to all following routes
 
-router.get("/grades", async (req, res) => {
+router.get("/", async (req, res) => {
     const sql = `SELECT module_id, TRIM(module_title) AS module_title
     FROM modules
     ORDER BY TRIM(module_title) ASC`;
@@ -23,7 +25,7 @@ router.get("/grades", async (req, res) => {
     
 })
 
-router.get("/grades/module/:id", (req, res)=>{
+router.get("/module/:id", (req, res)=>{
     const moduleId = req.params.id;
 
     console.log("Module ID received:", moduleId);
@@ -45,7 +47,7 @@ router.get("/grades/module/:id", (req, res)=>{
     })
 })
 
-router.post("/grades/update", async (req, res)=>{
+router.post("/update", async (req, res)=>{
     
     const {student_id, module_id, first_grade, grade_result, resit_grade, resit_result, semester, academic_year} = req.body;
 
@@ -54,7 +56,17 @@ router.post("/grades/update", async (req, res)=>{
     SET first_grade = ?, grade_result = ?, resit_grade = ?, resit_result = ?, semester = ?, academic_year = ?
     WHERE student_id = ? AND module_id = ?`;
 
-    connection.query(sql, [first_grade, grade_result, resit_grade, resit_result, semester, academic_year, student_id, module_id], (err, result) => {
+    const values = [first_grade || null,
+        grade_result || null,
+        resit_grade === "" ? null : resit_grade,
+        resit_result || null,
+        semester || null,
+        academic_year || null,
+        student_id,
+        module_id
+    ];
+
+    connection.query(sql, values, (err, result) => {
         if (err) return res.status(500).json({ error: "Update Failed"});
 
         if (result.affectedRows === 0) {
@@ -62,12 +74,10 @@ router.post("/grades/update", async (req, res)=>{
             return res.status(404).json({ error: "No record updated" });
         }
         res.json({ success: true });
-        
-
-    } )
+    })
 });
 
-router.post("/grades/upload", upload.single("gradesCSV"), (req, res) => {
+router.post("/upload", upload.single("gradesCSV"), (req, res) => {
     const filePath = req.file.path;
     const results = [];
     let added = 0, updated = 0;

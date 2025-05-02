@@ -10,7 +10,7 @@ document.addEventListener("change", function(e){
             decision: newDecision
           });
 
-        fetch("/update-decision", {
+        fetch("/admin/progression/update-decision", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({ student_id: studentID, academic_year: academicYear, decision: newDecision })

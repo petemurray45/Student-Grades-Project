@@ -3,6 +3,7 @@ const router = express.Router();
 const connection = require("../connection.js")
 const bcrypt = require("bcrypt");
 
+
 router.get("/", (req, res) => {
     res.render("index");
 })
@@ -26,6 +27,9 @@ router.post('/login', (req, res)=> {
 
         const user = results[0];
         req.session.user = user;
+        if (role === "student"){
+            req.session.student_id = user.student_id;
+        }
         console.log("Session set:", req.session.user);
 
         // compares password entered with hashed password

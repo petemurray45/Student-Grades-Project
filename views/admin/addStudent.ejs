@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/ui/admin/stylesModules.css">
+    <link rel="stylesheet" href="/ui/admin/stylesSearch.css">
+    <title>Add New Student</title>
+</head>
+<body>
+    <%- include ("../partials/sidebarAdmin") %>
+
+    <div class="grid-box">
+        <div class="containerAdd">
+            <div class="module-boxAdd">
+                <form class="box" id="add-student-form" method="POST" action="/admin/search/addStudent">
+                    <div class="field">
+                      <label class="label">Student ID</label>
+                      <input class="input" type="text" name="sID" placeholder="Enter Student ID" required>
+                    </div>
+                  
+                    <div class="field">
+                      <label class="label">First Name</label>
+                      <input class="input" type="text" name="first_name" placeholder="Enter First Name" required>
+                    </div>
+                  
+                    <div class="field">
+                      <label class="label">Last Name</label>
+                      <input class="input" type="text" name="last_name" placeholder="Enter Last Name" required>
+                    </div>
+                  
+                    <div class="field">
+                      <label class="label">Pathway</label>
+                      <input class="input" type="text" name="pathway" placeholder="e.g. CS/SE" required>
+                    </div>
+                  
+                    <div class="field">
+                      <label class="label">Year of Study</label>
+                      <input class="input" type="number" name="year_of_study" min="1" max="5" placeholder="e.g. 2" required>
+                    </div>
+                  
+                    <div class="field">
+                      <label class="label">Study Status</label>
+                      <div class="control">
+                        <div class="select">
+                          <div class="select">
+                            <select name="study_status" required>
+                                <option value="full-time">Full Time</option>
+                                <option value="part-time">Part Time</option>
+                          </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="buttonBox">
+                        <button type="submit" class="button is-success mt-4">Add Student</button>
+                    </div>
+                    
+                  </form>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
